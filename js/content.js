@@ -550,7 +550,7 @@ var CONTENT = {
         { domanda: 'Quale frase è corretta?', opzioni: ['Om aftenen ser vi fjernsyn.', 'Om aftenen vi ser fjernsyn.', 'Om aftenen fjernsyn vi ser.'], spiegazione: 'Il verbo resta al secondo posto: <span class="da">ser vi</span>.' },
         { domanda: 'Når jeg kommer hjem, ___.', opzioni: ['spiser jeg', 'jeg spiser', 'jeg spiser ikke'], spiegazione: 'La subordinata occupa il primo posto → inversione.' },
         { domanda: 'Desværre ___ ikke komme.', opzioni: ['kan jeg', 'jeg kan', 'kan'], spiegazione: 'Avverbio al primo posto → verbo + soggetto.' },
-        { domanda: 'Quale frase è corretta?', opzioni: ['I dag arbejder jeg ikke.', 'I dag arbejder ikke jeg.', 'I dag jeg arbejder ikke.'], spiegazione: 'Verbo + pronome soggetto + <span class="da">ikke</span>.' },
+        { domanda: 'Dove va <em>ikke</em>? Scegli la frase corretta.', opzioni: ['I dag arbejder jeg ikke.', 'I dag arbejder ikke jeg.', 'I dag jeg arbejder ikke.'], spiegazione: 'Verbo + pronome soggetto + <span class="da">ikke</span>.' },
         { domanda: 'Hvorfor ___ dansk?', opzioni: ['lærer du', 'du lærer', 'lærer'], spiegazione: 'Parola hv- + verbo + soggetto.' },
         { domanda: 'Hvis det regner, ___ hjemme.', opzioni: ['bliver vi', 'vi bliver', 'vi'], spiegazione: 'Subordinata al primo posto → inversione nella principale.' }
       ]
@@ -810,3 +810,117 @@ var CONTENT = {
     }
   }
 };
+
+/* =====================================================================
+ * Domande aggiuntive: ogni quiz arriva a 10 domande.
+ * Anche qui la PRIMA opzione è quella corretta.
+ * ===================================================================== */
+var EXTRA_QUIZ = {
+  principiante: {
+    verbi: [
+      { domanda: 'Jeg ___ en bog. <em>(at læse)</em>', opzioni: ['læser', 'læse', 'læs'], spiegazione: 'læse + r = <span class="da">læser</span>.' },
+      { domanda: 'Hvad ___ du? <em>(at hedde)</em>', opzioni: ['hedder', 'hedde', 'heder'], spiegazione: 'hedde + r = <span class="da">hedder</span>.' },
+      { domanda: 'Vi ___ gerne have to kaffe. <em>(vogliamo)</em>', opzioni: ['vil', 'viller', 'at ville'], spiegazione: 'Il modale <span class="da">ville</span> al presente è <span class="da">vil</span>, senza -r.' },
+      { domanda: 'Jeg ___ gå nu. <em>(devo)</em>', opzioni: ['skal', 'skaler', 'skulle at'], spiegazione: '<span class="da">skal</span> + infinito senza <span class="da">at</span>.' }
+    ],
+    avverbi: [
+      { domanda: 'Jeg er ___ træt. <em>(molto)</em>', opzioni: ['meget', 'mange', 'megen'], spiegazione: '"Molto" davanti a un aggettivo = <span class="da">meget</span>.' },
+      { domanda: 'Hun er ___ syg. <em>(un po\')</em>', opzioni: ['lidt', 'lille', 'få'], spiegazione: '"Un po\'" = <span class="da">lidt</span>.' },
+      { domanda: 'Sofie går ikke til yoga, og det gør Lene ___. <em>(neanche Lene)</em>', opzioni: ['heller ikke', 'også', 'derimod godt'], spiegazione: 'Frase negativa + accordo = <span class="da">heller ikke</span>.' },
+      { domanda: 'Det går ___ med fru Nielsen. <em>(male)</em>', opzioni: ['dårligt', 'dårlig', 'ikke godt er'], spiegazione: 'Avverbio "male" = <span class="da">dårligt</span>, con la -t.' }
+    ],
+    pronomi: [
+      { domanda: 'Vi ser ___ i morgen. <em>(loro)</em>', opzioni: ['dem', 'de', 'deres'], spiegazione: 'Complemento di "loro": <span class="da">dem</span>.' },
+      { domanda: 'Hvad med ___? <em>(e tu?)</em>', opzioni: ['dig', 'du', 'din'], spiegazione: 'Dopo una preposizione si usa il complemento: <span class="da">dig</span>.' },
+      { domanda: 'Det er ___ ven. <em>(en ven)</em>', opzioni: ['min', 'mit', 'mine'], spiegazione: 'Nome comune (en) → <span class="da">min</span>.' }
+    ],
+    preposizioni: [
+      { domanda: 'Jeg bor ___ Italien.', opzioni: ['i', 'på', 'til'], spiegazione: 'Con i paesi si usa <span class="da">i</span>.' },
+      { domanda: 'Hun arbejder ___ biblioteket.', opzioni: ['på', 'i', 'hos'], spiegazione: 'Molti luoghi pubblici vogliono <span class="da">på</span>: <span class="da">på biblioteket</span>.' },
+      { domanda: 'Bogen ligger ___ bordet. <em>(sul tavolo)</em>', opzioni: ['på', 'i', 'med'], spiegazione: 'Su una superficie: <span class="da">på</span>.' }
+    ],
+    congiunzioni: [
+      { domanda: 'Hun taler dansk ___ engelsk. <em>(e)</em>', opzioni: ['og', 'men', 'for'], spiegazione: '"E" = <span class="da">og</span>.' },
+      { domanda: 'Jeg kan godt lide kaffe, ___ jeg kan ikke lide te.', opzioni: ['men', 'og', 'eller'], spiegazione: 'Contrasto: <span class="da">men</span>.' },
+      { domanda: 'Skal vi gå i biografen, ___ skal vi blive hjemme?', opzioni: ['eller', 'men', 'så'], spiegazione: 'Alternativa: <span class="da">eller</span>.' },
+      { domanda: 'Det regner, ___ vi tager bussen. <em>(quindi)</em>', opzioni: ['så', 'for', 'eller'], spiegazione: 'Conseguenza: <span class="da">så</span>.' }
+    ],
+    inversione: [
+      { domanda: 'Come si chiede "Hai la febbre?"', opzioni: ['Har du feber?', 'Du har feber?', 'Feber har du?'], spiegazione: 'Domanda sì/no: verbo al primo posto.' },
+      { domanda: 'Hvem ___ fra Danmark? <em>(chi viene…)</em>', opzioni: ['kommer', 'kommer han', 'han kommer'], spiegazione: 'Qui <span class="da">hvem</span> è il soggetto, quindi segue subito il verbo.' },
+      { domanda: '"Perché" in danese si dice:', opzioni: ['hvorfor', 'hvordan', 'hvornår'], spiegazione: '<span class="da">hvorfor</span> = perché.' },
+      { domanda: 'Metti in ordine: <em>kan / tale / han / ikke / spansk ?</em>', opzioni: ['Kan han ikke tale spansk?', 'Han kan ikke tale spansk?', 'Kan ikke han tale spansk?'], spiegazione: 'Verbo + soggetto + <span class="da">ikke</span> + infinito.' }
+    ]
+  },
+  intermedio: {
+    verbi: [
+      { domanda: 'Jeg ___ en kop kaffe i morges. <em>(at drikke)</em>', opzioni: ['drak', 'drikkede', 'drukket'], spiegazione: 'drikke è irregolare: <span class="da">drak</span>.' },
+      { domanda: 'Hun ___ ja. <em>(at sige, passato)</em>', opzioni: ['sagde', 'sigede', 'sagt'], spiegazione: 'sige → <span class="da">sagde</span> (participio: <span class="da">sagt</span>).' },
+      { domanda: 'Vi har ___ i Danmark i to år. <em>(at bo)</em>', opzioni: ['boet', 'boede', 'bot'], spiegazione: 'Participio di bo: <span class="da">boet</span>.' }
+    ],
+    avverbi: [
+      { domanda: 'Kom ___! <em>(entra, moto)</em>', opzioni: ['ind', 'inde', 'inden'], spiegazione: 'Moto verso dentro: <span class="da">ind</span>.' },
+      { domanda: 'Hun er ___ på første sal. <em>(di sopra, stato)</em>', opzioni: ['oppe', 'op', 'opad'], spiegazione: 'Stato: <span class="da">oppe</span>.' },
+      { domanda: 'Jeg har ___ set filmen. <em>(già)</em>', opzioni: ['allerede', 'aldrig', 'altid'], spiegazione: '"Già" = <span class="da">allerede</span>.' }
+    ],
+    pronomi: [
+      { domanda: 'Er det ___ taske, Maria? <em>(tua; en taske)</em>', opzioni: ['din', 'dit', 'sin'], spiegazione: 'Nome comune → <span class="da">din</span>.' },
+      { domanda: 'De sælger ___ hus. <em>(il loro)</em>', opzioni: ['deres', 'sit', 'sine'], spiegazione: '<span class="da">sin/sit/sine</span> vale solo per la 3ª persona singolare. Al plurale si usa sempre <span class="da">deres</span>.' },
+      { domanda: 'Lars ringer til ___ mor. <em>(la propria)</em>', opzioni: ['sin', 'hans', 'sit'], spiegazione: 'Il possessore è il soggetto e <span class="da">mor</span> è comune: <span class="da">sin</span>.' }
+    ],
+    preposizioni: [
+      { domanda: 'Jeg arbejder ___ aftenen. <em>(di sera, di solito)</em>', opzioni: ['om', 'i', 'på'], spiegazione: 'Abitudine: <span class="da">om aftenen</span>.' },
+      { domanda: 'Hvad skal du lave ___ aften? <em>(stasera)</em>', opzioni: ['i', 'om', 'på'], spiegazione: '"Stasera" = <span class="da">i aften</span>.' },
+      { domanda: 'Han kom til Danmark ___ to år siden.', opzioni: ['for', 'i', 'om'], spiegazione: '"Fa" = <span class="da">for … siden</span>.' }
+    ],
+    congiunzioni: [
+      { domanda: 'Han læser, ___ hun laver mad. <em>(mentre)</em>', opzioni: ['mens', 'når', 'fordi'], spiegazione: '"Mentre" = <span class="da">mens</span>.' },
+      { domanda: 'Jeg tror, ___ det bliver regnvejr. <em>(che)</em>', opzioni: ['at', 'om', 'som'], spiegazione: '"Che" dopo verbi come tro, vide, sige = <span class="da">at</span>.' },
+      { domanda: 'Hun spørger, ___ jeg vil have kaffe. <em>(se)</em>', opzioni: ['om', 'hvis', 'at'], spiegazione: 'Domanda indiretta: <span class="da">om</span>.' }
+    ],
+    inversione: [
+      { domanda: 'Nu ___ hjem.', opzioni: ['går vi', 'vi går', 'går'], spiegazione: '<span class="da">Nu</span> al primo posto → verbo + soggetto.' },
+      { domanda: 'Om sommeren ___ ofte på stranden.', opzioni: ['er vi', 'vi er', 'vi ofte er'], spiegazione: 'Espressione di tempo al primo posto → inversione.' },
+      { domanda: 'Da jeg var barn, ___ i Napoli.', opzioni: ['boede jeg', 'jeg boede', 'boede'], spiegazione: 'La subordinata occupa il primo posto → verbo + soggetto.' }
+    ]
+  },
+  avanzato: {
+    verbi: [
+      { domanda: 'Der ___ mange sprog i verden. <em>(esistono)</em>', opzioni: ['findes', 'finder', 'er fundet'], spiegazione: '"Esistere" = <span class="da">findes</span>.' },
+      { domanda: 'Det ___ for ham at finde et job. <em>(è riuscito)</em>', opzioni: ['lykkedes', 'lykkede', 'lykkes ham'], spiegazione: 'Passato di <span class="da">lykkes</span>: <span class="da">lykkedes</span>.' },
+      { domanda: 'Hun ___ aldrig set sneen før. <em>(non aveva mai visto)</em>', opzioni: ['havde', 'var', 'har haft'], spiegazione: 'Trapassato: <span class="da">havde</span> + participio.' }
+    ],
+    avverbi: [
+      { domanda: 'Han kommer ikke. Han er ___ syg. <em>(probabilmente)</em>', opzioni: ['nok', 'jo', 'bare'], spiegazione: '"Probabilmente" = <span class="da">nok</span>.' },
+      { domanda: 'Det er ___ fint! <em>(ma è bello!)</em>', opzioni: ['da', 'vel', 'nok'], spiegazione: '<span class="da">da</span> aggiunge enfasi o sorpresa.' },
+      { domanda: 'Kender du ham? Nej, jeg kender ___. <em>(risposta neutra)</em>', opzioni: ['ham ikke', 'ikke ham', 'ikke'], spiegazione: 'Pronome non accentato prima di <span class="da">ikke</span>.' },
+      { domanda: 'Du skal ___ ringe, hvis du har brug for hjælp. <em>(pure)</em>', opzioni: ['bare', 'nok', 'vel'], spiegazione: '<span class="da">bare</span> = "pure, semplicemente".' }
+    ],
+    pronomi: [
+      { domanda: 'Jeg har ___ venner i Aarhus. <em>(alcuni)</em>', opzioni: ['nogle', 'nogen', 'noget'], spiegazione: 'Frase affermativa al plurale: <span class="da">nogle</span>.' },
+      { domanda: 'Gør, ___ du vil. <em>(ciò che)</em>', opzioni: ['hvad', 'som', 'hvilket'], spiegazione: '"Ciò che" = <span class="da">hvad</span>.' },
+      { domanda: 'Der er ___ hjemme. <em>(non c\'è nessuno)</em>', opzioni: ['ingen', 'intet', 'ikke nogen er'], spiegazione: '"Nessuno" = <span class="da">ingen</span>.' }
+    ],
+    preposizioni: [
+      { domanda: 'Jeg drømmer ___ at rejse til Island.', opzioni: ['om', 'på', 'til'], spiegazione: '<span class="da">drømme om</span> = sognare di.' },
+      { domanda: 'Hun er god ___ matematik.', opzioni: ['til', 'i', 'på'], spiegazione: '<span class="da">god til</span> = brava in.' },
+      { domanda: 'Pas ___ hunden! <em>(attento al cane)</em>', opzioni: ['på', 'for', 'med'], spiegazione: '<span class="da">passe på</span> = fare attenzione a.' }
+    ],
+    congiunzioni: [
+      { domanda: 'Ring, ___ du kommer. <em>(prima che)</em>', opzioni: ['før', 'efter at', 'indtil'], spiegazione: '"Prima che" = <span class="da">før</span>.' },
+      { domanda: 'Tal højt, ___ alle kan høre dig. <em>(così che)</em>', opzioni: ['så', 'medmindre', 'før'], spiegazione: 'Scopo: <span class="da">så</span> (at).' },
+      { domanda: '___ vi havde spist, gik vi en tur. <em>(dopo che)</em>', opzioni: ['Efter at', 'Før', 'Indtil'], spiegazione: '"Dopo che" = <span class="da">efter at</span>.' }
+    ],
+    inversione: [
+      { domanda: '"Kom ind!" ___.', opzioni: ['råbte han', 'han råbte', 'råbte'], spiegazione: 'Dopo il discorso diretto: verbo + soggetto.' },
+      { domanda: '___ han, går jeg. <em>(se viene lui)</em>', opzioni: ['Kommer', 'Hvis kommer', 'Han kommer'], spiegazione: 'Condizionale senza <span class="da">hvis</span>: verbo al primo posto.' },
+      { domanda: 'Det ___ ikke. <em>(questo non lo so)</em>', opzioni: ['ved jeg', 'jeg ved', 'ved'], spiegazione: '<span class="da">Det</span> al primo posto → verbo + soggetto.' }
+    ]
+  }
+};
+
+Object.keys(EXTRA_QUIZ).forEach(function (lvl) {
+  Object.keys(EXTRA_QUIZ[lvl]).forEach(function (topic) {
+    CONTENT[lvl][topic].quiz = CONTENT[lvl][topic].quiz.concat(EXTRA_QUIZ[lvl][topic]);
+  });
+});

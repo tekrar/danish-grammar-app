@@ -1,16 +1,16 @@
 # 🇩🇰 Grammatica Danese per Italiani
 
-> **Hej! Velkommen!** Impara la grammatica danese passo dopo passo, con spiegazioni chiare in italiano ed esercizi a correzione immediata.
+> **Hej! Velkommen!** Metti alla prova la tua grammatica danese con 18 quiz pensati per chi parla italiano: una domanda alla volta, correzione immediata e spiegazione per ogni risposta.
 
 Il danese ha fama di lingua difficile: le vocali sembrano infinite e la pronuncia è un mistero. Ma c'è una buona notizia: **la grammatica è molto più semplice di quella italiana**. I verbi non cambiano per persona, non ci sono congiuntivi da memorizzare e le regole sull'ordine delle parole sono poche e logiche.
 
-Questa web app ti accompagna dalle basi fino alle sfumature più raffinate, pensando sempre agli errori tipici di chi parla italiano.
+Questa web app ti allena dalle basi fino alle sfumature più raffinate, con domande costruite sugli errori tipici di chi parla italiano.
 
 ---
 
 ## ✨ Cosa trovi
 
-**3 livelli** e **6 argomenti** per ogni livello: in tutto **18 lezioni** e più di **120 esercizi**.
+**3 livelli** e **6 quiz** per ogni livello: in tutto **18 quiz** e **180 domande**.
 
 | | 🟢 Principiante | 🟠 Intermedio | 🟣 Avanzato |
 |---|---|---|---|
@@ -21,16 +21,18 @@ Questa web app ti accompagna dalle basi fino alle sfumature più raffinate, pens
 | **Congiunzioni** | og, men, eller, for, så | at, fordi, når/da, hvis/om | både…og, hverken…eller, medmindre |
 | **Regola di inversione** | la regola V2 e le domande | inversione dopo avverbi e subordinate | discorso diretto, condizionali senza *hvis* |
 
-Ogni lezione contiene:
+Ogni quiz ha:
 
-- 📖 **Spiegazioni brevi** in italiano, con tabelle ed esempi tradotti
-- 💡 **Suggerimenti** sugli errori più comuni degli italiani
-- ✅ **Esercizi a scelta multipla** con correzione immediata e spiegazione della risposta
-- 🏆 **Punteggio salvato** nel tuo browser, così vedi i tuoi progressi
+- ✅ **10 domande a scelta multipla**, una alla volta, con barra di avanzamento
+- 💡 **Correzione immediata** e spiegazione in italiano dopo ogni risposta
+- 📋 **Riepilogo finale** con le domande sbagliate da ripassare
+- 📖 **"Ripassa la regola"**: un riquadro apribile con la teoria, tabelle ed esempi tradotti
+- 🏆 **Punteggio migliore salvato** nel tuo browser, così vedi i tuoi progressi
+- ⌨️ Sul computer puoi rispondere con i tasti **1, 2, 3** e andare avanti con **Invio**
 
 ## 📱 Funziona ovunque
 
-L'app è pensata prima di tutto per il telefono: puoi ripassare sul treno, in pausa caffè o mentre aspetti l'autobus (*mens du venter på bussen!*). Si adatta anche a tablet e computer e supporta la modalità scura.
+L'app è pensata prima di tutto per il telefono: puoi ripassare sul treno, in pausa caffè o mentre aspetti l'autobus (*mens du venter på bussen!*). Si adatta anche a tablet e computer. I colori sono solo tre: bianco, rosso e verde, come la bandiera danese… e quella italiana! 🇩🇰🇮🇹
 
 ## 🚀 Provala subito
 
@@ -52,15 +54,15 @@ Solo **HTML, CSS e JavaScript puro**: nessun framework, nessuna dipendenza, ness
 ```
 danish-grammar-app/
 ├── index.html        # la pagina principale
-├── css/style.css     # stile (anche mobile e modalità scura)
+├── css/style.css     # stile (mobile first, bianco/rosso/verde)
 └── js/
-    ├── content.js    # tutte le lezioni e gli esercizi
+    ├── content.js    # teoria e domande dei quiz
     └── app.js        # navigazione, quiz e punteggi
 ```
 
-### Aggiungere o modificare un esercizio
+### Aggiungere o modificare una domanda
 
-Tutti i contenuti stanno in `js/content.js`. Ogni esercizio ha questa forma:
+Tutti i contenuti stanno in `js/content.js`. Ogni domanda ha questa forma:
 
 ```js
 {
@@ -82,7 +84,7 @@ Dopo un minuto l'app sarà online.
 
 ## 📚 Fonti
 
-I contenuti seguono la progressione del manuale *Godt begyndt. Corso di lingua danese*. Le spiegazioni e gli esercizi sono stati riscritti per questa app.
+I contenuti seguono la progressione del manuale *Godt begyndt. Corso di lingua danese*. Le spiegazioni e le domande sono state riscritte per questa app.
 
 ---
 
