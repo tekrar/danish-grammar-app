@@ -1,13 +1,16 @@
 /*
- * Contenuti dell'app: livelli, argomenti, spiegazioni ed esercizi.
- * Negli esercizi la PRIMA opzione è sempre quella corretta:
+ * Contenuti dell'app: livelli, argomenti, spiegazioni e quiz.
+ * Teoria e domande seguono le unità del manuale
+ * "Godt begyndt. Corso di lingua danese":
+ *   Principiante = unità 1–5, Intermedio = unità 6–10, Avanzato = unità 11–15.
+ * Ogni domanda ha 4 opzioni e la PRIMA è sempre quella corretta:
  * l'app mescola le opzioni prima di mostrarle.
  */
 
 var LEVELS = [
-  { id: 'principiante', nome: 'Principiante', descrizione: 'Le basi: presente, pronomi personali, prime preposizioni e la regola V2.' },
-  { id: 'intermedio', nome: 'Intermedio', descrizione: 'Passato, possessivi, frasi subordinate e inversione dopo avverbi.' },
-  { id: 'avanzato', nome: 'Avanzato', descrizione: 'Passivo, pronomi relativi, verbi con preposizione fissa e sfumature.' }
+  { id: 'principiante', nome: 'Principiante', descrizione: 'Unità 1–5 del libro: presente, pronomi, på/i/til, la regola V2 e le prime inversioni.' },
+  { id: 'intermedio', nome: 'Intermedio', descrizione: 'Unità 6–10: imperativo, verbi di posizione, passato prossimo, sin/hans, nogen/noget/nogle e il soggetto provvisorio der.' },
+  { id: 'avanzato', nome: 'Avanzato', descrizione: 'Unità 11–15: futuro, preterito, passivo, trapassato, pronomi relativi e dimostrativi, subordinate.' }
 ];
 
 var TOPICS = [
@@ -19,7 +22,7 @@ var TOPICS = [
   { id: 'inversione', nome: 'Regola di inversione', danese: 'inversion / V2' }
 ];
 
-/* Piccoli aiuti per scrivere gli esempi e le tabelle */
+/* Piccoli aiuti per scrivere gli esempi, le tabelle e le domande */
 function ex(rows) {
   return '<ul class="examples">' + rows.map(function (r) {
     return '<li><span class="da">' + r[0] + '</span><span class="it">' + r[1] + '</span></li>';
@@ -33,894 +36,674 @@ function table(head, rows) {
     '</tbody></table></div>';
 }
 function tip(html) { return '<p class="tip">' + html + '</p>'; }
+/* q(domanda, [corretta, sbagliata, sbagliata, sbagliata], spiegazione) */
+function q(domanda, opzioni, spiegazione) {
+  return { domanda: domanda, opzioni: opzioni, spiegazione: spiegazione };
+}
 
 var CONTENT = {
 
   /* =====================================================================
-   * PRINCIPIANTE
+   * PRINCIPIANTE · unità 1–5
    * ===================================================================== */
   principiante: {
 
     verbi: {
-      sommario: 'Infinito, presente e i verbi irregolari være e have.',
+      sommario: `Presente, være e have, i modali skal e vil, i verbi reciproci (mødes) e riflessivi (sig).`,
       sezioni: [
         {
-          titolo: "L'infinito",
+          titolo: `Il presente: infinito + -r (unità 1–2)`,
           html:
-            '<p>In danese l\'infinito è preceduto dalla particella <span class="da">at</span>, che funziona un po\' come il "to" inglese. Quasi tutti gli infiniti finiscono in <strong>-e</strong>.</p>' +
-            ex([['at komme', 'venire'], ['at hedde', 'chiamarsi'], ['at tale', 'parlare'], ['at bo', 'abitare']])
-        },
-        {
-          titolo: 'Il presente: basta aggiungere -r',
-          html:
-            '<p>Per formare il presente si aggiunge <strong>-r</strong> all\'infinito. La bella notizia: il verbo <strong>non cambia mai</strong> secondo la persona. <span class="da">jeg kommer</span>, <span class="da">du kommer</span>, <span class="da">de kommer</span>: sempre uguale!</p>' +
-            table(['Infinito', 'Presente', 'Italiano'], [
-              ['at komme', '<span class="da">kommer</span>', 'vengo, vieni, viene…'],
-              ['at hedde', '<span class="da">hedder</span>', 'mi chiamo, ti chiami…'],
-              ['at bo', '<span class="da">bor</span>', 'abito, abiti…'],
-              ['at tale', '<span class="da">taler</span>', 'parlo, parli…']
-            ]) +
-            tip('Visto che il verbo non cambia, in danese il <strong>soggetto è obbligatorio</strong>. In italiano diciamo "abito a Roma", in danese bisogna dire <span class="da">Jeg bor i Rom</span>.') +
-            ex([['Johan bor i København.', 'Johan vive a Copenaghen.'], ['Johan og Kristian bor i København.', 'Johan e Kristian vivono a Copenaghen.']])
-        },
-        {
-          titolo: 'Essere e avere: være e have',
-          html:
-            '<p>I due ausiliari sono irregolari, ma anche loro restano uguali per tutte le persone.</p>' +
-            table(['Infinito', 'Presente', 'Esempio'], [
-              ['at være (essere)', '<span class="da">er</span>', '<span class="da">Jeg er syg.</span> Sono malato/a.'],
-              ['at have (avere)', '<span class="da">har</span>', '<span class="da">Jeg har feber.</span> Ho la febbre.']
+            `<p>Il presente si forma aggiungendo <strong>-r</strong> all'infinito, e il verbo <strong>non cambia mai con la persona</strong>: <span class="da">jeg bor, du bor, hun bor, vi bor</span>.</p>` +
+            table([`Infinito`, `Presente`, `Italiano`], [
+              [`at bo`, `<span class="da">bor</span>`, `abitare`],
+              [`at hedde`, `<span class="da">hedder</span>`, `chiamarsi`],
+              [`at være`, `<span class="da">er</span>`, `essere (irregolare)`],
+              [`at have`, `<span class="da">har</span>`, `avere (irregolare)`]
             ])
         },
         {
-          titolo: 'I verbi modali',
+          titolo: `I modali skal e vil (unità 4)`,
           html:
-            '<p>I verbi modali <strong>non</strong> prendono la -r al presente e sono seguiti dall\'infinito <strong>senza</strong> <span class="da">at</span>.</p>' +
-            table(['Infinito', 'Presente', 'Significato'], [
-              ['at kunne', '<span class="da">kan</span>', 'potere, sapere (fare)'],
-              ['at ville', '<span class="da">vil</span>', 'volere'],
-              ['at skulle', '<span class="da">skal</span>', 'dovere (programma), andare a'],
-              ['at måtte', '<span class="da">må</span>', 'potere (permesso), dovere']
-            ]) +
-            ex([['Hun kan tale italiensk.', 'Lei sa parlare italiano.'], ['Jeg vil gerne have en kaffe.', 'Vorrei un caffè.']])
+            `<p>Dopo <span class="da">skal</span> (dovere, avere in programma) e <span class="da">vil</span> (volere) l'infinito va <strong>senza at</strong>.</p>` +
+            ex([[`Jeg skal arbejde i morgen.`, `Domani devo lavorare.`], [`Vil du gå i biografen?`, `Vuoi andare al cinema?`]])
+        },
+        {
+          titolo: `Verbi reciproci e riflessivi (unità 4–5)`,
+          html:
+            `<p>Con <strong>-s</strong> l'azione diventa reciproca: <span class="da">Hvor skal vi mødes?</span> (Dove ci incontriamo?), <span class="da">Vi ses i morgen!</span> (Ci vediamo domani!).</p>` +
+            `<p>Il riflessivo di 3ª persona è <span class="da">sig</span>; le altre persone usano il pronome oggetto (<span class="da">mig, dig, os, jer</span>).</p>` +
+            ex([[`Camilla friserer sig.`, `Camilla si pettina.`], [`Jeg vasker mig.`, `Mi lavo.`]]) +
+            tip(`"Alzarsi" non è riflessivo in danese: si dice <span class="da">at stå op</span>.`)
         }
       ],
       quiz: [
-        { domanda: 'Hun ___ fra Brasilien. <em>(at komme)</em>', opzioni: ['kommer', 'komme', 'kommerer'], spiegazione: 'Presente = infinito + -r: komme → <span class="da">kommer</span>.' },
-        { domanda: 'Jeg ___ syg. <em>(sono malato)</em>', opzioni: ['er', 'har', 'være'], spiegazione: '"Essere" al presente è <span class="da">er</span>.' },
-        { domanda: 'Hans ___ tandpine. <em>(ha mal di denti)</em>', opzioni: ['har', 'er', 'have'], spiegazione: '"Avere" al presente è <span class="da">har</span>.' },
-        { domanda: 'Du ___ tale dansk. <em>(at kunne)</em>', opzioni: ['kan', 'kunner', 'kanr'], spiegazione: 'I modali non prendono la -r: <span class="da">kan</span>.' },
-        { domanda: 'Vi ___ i Aarhus. <em>(at bo)</em>', opzioni: ['bor', 'boer', 'bo'], spiegazione: 'bo + r = <span class="da">bor</span>, uguale per tutte le persone.' },
-        { domanda: 'Quale frase è corretta?', opzioni: ['Jeg taler dansk.', 'Taler dansk.', 'Jeg tale dansk.'], spiegazione: 'Serve sempre il soggetto e il verbo al presente prende la -r.' }
+        q(`Sofie ___ i København.`, [`bor`, `bo`, `borer`, `at bo`], `Presente = infinito + -r: <span class="da">at bo → bor</span>, uguale per tutte le persone.`),
+        q(`Vi ___ italienere.`, [`er`, `være`, `erer`, `har`], `<span class="da">At være</span> al presente è sempre <span class="da">er</span>, anche al plurale.`),
+        q(`Hun ___ to børn.`, [`har`, `have`, `haver`, `er`], `<span class="da">At have</span> al presente è <span class="da">har</span>.`),
+        q(`Jeg skal ___ i morgen.`, [`arbejde`, `at arbejde`, `arbejder`, `arbejdes`], `Dopo un modale (skal, vil, kan) l'infinito va senza <span class="da">at</span>.`),
+        q(`Vil du ___ en kop kaffe?`, [`have`, `har`, `at have`, `haves`], `Dopo <span class="da">vil</span> si usa l'infinito semplice: <span class="da">Vil du have…?</span>`),
+        q(`Hvor skal vi ___? <em>(incontrarci)</em>`, [`mødes`, `møde`, `møder`, `møde os selv`], `La -s dà il significato reciproco: <span class="da">at mødes</span> = incontrarsi l'un l'altro.`),
+        q(`Vi ___ i morgen! <em>(Ci vediamo domani!)</em>`, [`ses`, `ser`, `se`, `ser os`], `<span class="da">Vi ses</span> è il saluto reciproco con -s, come <span class="da">vi høres ved</span>.`),
+        q(`Camilla friserer ___.`, [`sig`, `hende`, `hun`, `sin`], `Il riflessivo di 3ª persona singolare è <span class="da">sig</span>, non il pronome personale.`),
+        q(`Jeg barberer ___ om morgenen.`, [`mig`, `sig`, `jeg`, `min`], `Per la 1ª persona il riflessivo coincide con il pronome oggetto: <span class="da">mig</span>.`),
+        q(`Come si dice "mi alzo alle sette"?`, [`Jeg står op klokken syv.`, `Jeg rejser mig klokken syv.`, `Jeg står mig op klokken syv.`, `Jeg op står klokken syv.`], `Il libro avverte: "alzarsi" non è riflessivo in danese, si usa <span class="da">at stå op</span>.`)
       ]
     },
 
     avverbi: {
-      sommario: 'ikke, også, heller ikke, godt: dove si mettono e come si usano.',
+      sommario: `ikke e aldrig, også / heller ikke / derimod e le risposte con ja e jo.`,
       sezioni: [
         {
-          titolo: 'La negazione ikke',
+          titolo: `Dove vanno ikke e aldrig (unità 5)`,
           html:
-            '<p><span class="da">ikke</span> significa "non". Nella frase principale si mette <strong>dopo il verbo</strong>, non prima come in italiano.</p>' +
-            ex([['Han er ikke amerikaner.', '(Lui) non è americano.'], ['Hun kan ikke tale italiensk.', '(Lei) non sa parlare italiano.']]) +
-            tip('Italiano: "Lui <strong>non</strong> è…" → Danese: "Han er <strong>ikke</strong>…". Prima il verbo, poi <span class="da">ikke</span>.')
+            `<p>Nella frase principale le negazioni <span class="da">ikke</span> (non) e <span class="da">aldrig</span> (mai), e avverbi come <span class="da">altid, tit, også</span>, vanno <strong>subito dopo verbo e soggetto</strong>.</p>` +
+            ex([[`De drikker ikke kaffe om aftenen.`, `Non bevono caffè la sera.`], [`Om aftenen ser han aldrig fjernsyn.`, `La sera non guarda mai la tv.`]]) +
+            tip(`Il riflessivo va prima dell'avverbio: <span class="da">Jesper vasker sig aldrig.</span>`)
         },
         {
-          titolo: 'Avverbi utili',
+          titolo: `også, heller ikke, derimod (unità 3)`,
           html:
-            table(['Danese', 'Italiano', 'Esempio'], [
-              ['<span class="da">også</span>', 'anche', '<span class="da">Han taler også fransk.</span>'],
-              ['<span class="da">godt</span>', 'bene', '<span class="da">Det går godt.</span> Va bene.'],
-              ['<span class="da">dårligt</span>', 'male', '<span class="da">Det går dårligt.</span> Va male.'],
-              ['<span class="da">meget</span>', 'molto', '<span class="da">Jeg er meget træt.</span>'],
-              ['<span class="da">lidt</span>', 'un po\'', '<span class="da">Hun er lidt syg.</span>'],
-              ['<span class="da">altid</span>', 'sempre', '<span class="da">Jeg drikker altid kaffe.</span>']
-            ]) +
-            '<p>Come <span class="da">ikke</span>, anche questi avverbi si mettono dopo il verbo.</p>'
-        },
-        {
-          titolo: 'Anche a me / Neanche a me',
-          html:
-            '<p>Per rispondere a qualcuno dicendo che sei d\'accordo o no, si usano <span class="da">også</span>, <span class="da">heller ikke</span> e <span class="da">derimod</span>.</p>' +
-            table(['Frase', 'Anche io / Neanche io', 'Io invece…'], [
-              ['<span class="da">Jeg kan godt lide at svømme.</span><br>Mi piace nuotare.', '<span class="da">Det kan jeg også.</span><br>Anche a me.', '<span class="da">Det kan jeg derimod ikke.</span><br>A me invece no.'],
-              ['<span class="da">Jeg kan ikke lide at svømme.</span><br>Non mi piace nuotare.', '<span class="da">Det kan jeg heller ikke.</span><br>Neanche a me.', '<span class="da">Det kan jeg derimod godt.</span><br>A me invece sì.']
+            table([`Frase di A`, `Stesso parere`, `Parere opposto`], [
+              [`Jeg kan godt lide kaffe.`, `<span class="da">Det kan jeg også.</span>`, `<span class="da">Det kan jeg derimod ikke.</span>`],
+              [`Jeg kan ikke lide sild.`, `<span class="da">Det kan jeg heller ikke.</span>`, `<span class="da">Det kan jeg derimod godt.</span>`]
             ])
+        },
+        {
+          titolo: `ja e jo (unità 4)`,
+          html:
+            `<p>Si risponde <span class="da">jo</span> (invece di ja) quando la domanda contiene una negazione.</p>` +
+            ex([[`Er du italiener? — Ja, det er jeg.`, `Sei italiano? — Sì.`], [`Er du ikke italiener? — Jo, det er jeg.`, `Non sei italiano? — Sì, lo sono.`]])
         }
       ],
       quiz: [
-        { domanda: 'Quale frase è corretta?', opzioni: ['Han er ikke amerikaner.', 'Han ikke er amerikaner.', 'Ikke han er amerikaner.'], spiegazione: 'Nella principale <span class="da">ikke</span> va dopo il verbo.' },
-        { domanda: 'Jeg kan godt lide kaffe, og det kan Peter ___.', opzioni: ['også', 'heller ikke', 'ikke'], spiegazione: 'Frase positiva + accordo = <span class="da">også</span>.' },
-        { domanda: 'Jeg kan ikke lide te, og det kan Anna ___.', opzioni: ['heller ikke', 'også', 'derimod ikke'], spiegazione: 'Frase negativa + accordo = <span class="da">heller ikke</span> (neanche).' },
-        { domanda: 'Hvordan går det? Det går ___. <em>(bene)</em>', opzioni: ['godt', 'god', 'meget'], spiegazione: '"Bene" come avverbio è <span class="da">godt</span>.' },
-        { domanda: 'Mi piace ballare. — A me invece no: "Det kan jeg ___."', opzioni: ['derimod ikke', 'også', 'heller ikke'], spiegazione: 'Disaccordo con una frase positiva: <span class="da">derimod ikke</span>.' },
-        { domanda: 'Hun taler ___ fransk. <em>(anche)</em>', opzioni: ['også', 'altid', 'lidt'], spiegazione: '"Anche" = <span class="da">også</span>, dopo il verbo.' }
+        q(`A: Er du ikke træt? B: ___, det er jeg.`, [`Jo`, `Ja`, `Nej`, `Også`], `La domanda contiene <span class="da">ikke</span>: per dire sì si usa <span class="da">jo</span>.`),
+        q(`A: Skal vi gå en tur? B: ___, det kan vi godt.`, [`Ja`, `Jo`, `Ikke`, `Heller`], `Nessuna negazione nella domanda, quindi la risposta positiva è <span class="da">ja</span>.`),
+        q(`A: Jeg kan godt lide kaffe. B: Det kan jeg ___.`, [`også`, `heller ikke`, `ikke også`, `jo`], `Stesso parere su una frase positiva: <span class="da">også</span> (anche).`),
+        q(`A: Jeg kan ikke lide sild. B: Det kan jeg ___.`, [`heller ikke`, `også`, `også ikke`, `ikke heller`], `Stesso parere su una frase negativa: <span class="da">heller ikke</span> (neanche).`),
+        q(`A: Jeg kan godt lide smørrebrød. B: Det kan jeg ___ ikke.`, [`derimod`, `også`, `heller`, `aldrig`], `Per esprimere il contrario si usa <span class="da">derimod</span> (invece).`),
+        q(`Scegli la frase corretta:`, [`De drikker ikke kaffe om aftenen.`, `De ikke drikker kaffe om aftenen.`, `Ikke de drikker kaffe om aftenen.`, `De drikker kaffe ikke om aftenen.`], `<span class="da">ikke</span> va subito dopo verbo e soggetto.`),
+        q(`Scegli la frase corretta:`, [`Om aftenen ser han aldrig fjernsyn.`, `Om aftenen han ser aldrig fjernsyn.`, `Om aftenen aldrig ser han fjernsyn.`, `Om aftenen ser aldrig han fjernsyn.`], `Verbo al 2° posto, poi il soggetto, poi <span class="da">aldrig</span>.`),
+        q(`Scegli la frase corretta:`, [`Jesper vasker sig aldrig.`, `Jesper vasker aldrig sig.`, `Jesper aldrig vasker sig.`, `Jesper sig vasker aldrig.`], `Nella principale il pronome riflessivo precede l'avverbio: <span class="da">vasker sig aldrig</span>.`),
+        q(`Jeg læser ___ avis om morgenen. <em>(sempre)</em>`, [`altid`, `aldrig`, `tit`, `heller`], `<span class="da">altid</span> = sempre, <span class="da">aldrig</span> = mai, <span class="da">tit</span> = spesso.`),
+        q(`Han barberer sig ___ om aftenen. <em>(spesso)</em>`, [`tit`, `altid`, `aldrig`, `også`], `<span class="da">tit</span> significa "spesso" e sta nella stessa posizione di <span class="da">ikke</span>.`)
       ]
     },
 
     pronomi: {
-      sommario: 'Pronomi personali soggetto e complemento, e il possessivo min/mit/mine.',
+      sommario: `Pronomi personali soggetto e oggetto, possessivi min/mit/mine e il riflessivo sig.`,
       sezioni: [
         {
-          titolo: 'Pronomi personali',
+          titolo: `Pronomi personali (unità 1 e 3)`,
           html:
-            '<p>I pronomi personali danesi hanno due forme: una per il <strong>soggetto</strong> e una per il <strong>complemento</strong> (come "io/me", "tu/te" in italiano).</p>' +
-            table(['Persona', 'Soggetto', 'Complemento'], [
-              ['io', '<span class="da">jeg</span>', '<span class="da">mig</span>'],
-              ['tu', '<span class="da">du</span>', '<span class="da">dig</span>'],
-              ['Lei (cortesia)', '<span class="da">De</span>', '<span class="da">Dem</span>'],
-              ['lui / lei', '<span class="da">han</span> / <span class="da">hun</span>', '<span class="da">ham</span> / <span class="da">hende</span>'],
-              ['esso (cose, animali)', '<span class="da">den</span> / <span class="da">det</span>', '<span class="da">den</span> / <span class="da">det</span>'],
-              ['noi', '<span class="da">vi</span>', '<span class="da">os</span>'],
-              ['voi', '<span class="da">I</span>', '<span class="da">jer</span>'],
-              ['loro', '<span class="da">de</span>', '<span class="da">dem</span>']
+            table([`Soggetto`, `Oggetto`, `Italiano`], [
+              [`jeg`, `mig`, `io / me`], [`du`, `dig`, `tu / te`], [`han / hun`, `ham / hende`, `lui / lei`],
+              [`den / det`, `den / det`, `esso (cose, animali)`], [`vi`, `os`, `noi`], [`I`, `jer`, `voi`], [`de`, `dem`, `loro`]
             ]) +
-            ex([['Jeg elsker dig.', 'Ti amo.'], ['Kan du hjælpe mig?', 'Puoi aiutarmi?'], ['Vi ser dem i morgen.', 'Li vediamo domani.']]) +
-            tip('<span class="da">I</span> (voi) si scrive sempre con la maiuscola, per non confonderlo con la preposizione <span class="da">i</span> (in). Anche <span class="da">De</span>/<span class="da">Dem</span> di cortesia hanno la maiuscola, ma oggi si usano pochissimo: in Danimarca si dà quasi sempre del <span class="da">du</span>.')
+            tip(`<span class="da">I</span> (voi) si scrive sempre con la maiuscola; <span class="da">De</span> maiuscolo è la forma di cortesia.`)
         },
         {
-          titolo: 'Il possessivo min / mit / mine',
+          titolo: `Possessivi min / mit / mine (unità 3)`,
           html:
-            '<p>"Mio" cambia forma secondo il genere del nome: <strong>comune</strong> (articolo <span class="da">en</span>), <strong>neutro</strong> (articolo <span class="da">et</span>) o <strong>plurale</strong>. Il possessivo va sempre prima del nome, senza articolo.</p>' +
-            table(['Comune (en)', 'Neutro (et)', 'Plurale'], [
-              ['<span class="da">min ven</span><br>il mio amico', '<span class="da">mit barn</span><br>il mio bambino', '<span class="da">mine børn</span><br>i miei figli']
-            ]) +
-            tip('Allo stesso modo funzionano <span class="da">din / dit / dine</span> (tuo).')
+            `<p>Il possessivo concorda con la cosa posseduta: comune (en-ord), neutro (et-ord) o plurale.</p>` +
+            table([`en-ord`, `et-ord`, `plurale`], [
+              [`min bil`, `mit hus`, `mine bøger`], [`din`, `dit`, `dine`], [`vores`, `vores`, `vores`], [`jeres`, `jeres`, `jeres`], [`hans / hendes / deres`, `invariabili`, ``]
+            ])
         }
       ],
       quiz: [
-        { domanda: '___ hedder Bodil. <em>(lei)</em>', opzioni: ['Hun', 'Hende', 'Han'], spiegazione: 'Soggetto femminile: <span class="da">hun</span>.' },
-        { domanda: 'Kan du hjælpe ___? <em>(me)</em>', opzioni: ['mig', 'jeg', 'min'], spiegazione: 'Complemento di "io": <span class="da">mig</span>.' },
-        { domanda: '___ bor i Aalborg. <em>(noi)</em>', opzioni: ['Vi', 'Os', 'De'], spiegazione: 'Soggetto "noi": <span class="da">vi</span>.' },
-        { domanda: 'Kommer ___ fra Parma? <em>(voi)</em>', opzioni: ['I', 'jer', 'i'], spiegazione: '"Voi" soggetto è <span class="da">I</span>, con la maiuscola.' },
-        { domanda: 'Det er ___ barn. <em>(et barn)</em>', opzioni: ['mit', 'min', 'mine'], spiegazione: 'Nome neutro (et) → <span class="da">mit</span>.' },
-        { domanda: 'Det er ___ børn. <em>(plurale)</em>', opzioni: ['mine', 'mit', 'min'], spiegazione: 'Plurale → <span class="da">mine</span>.' },
-        { domanda: 'Jeg kender ___. <em>(lui, complemento)</em>', opzioni: ['ham', 'han', 'hans'], spiegazione: 'Complemento di "lui": <span class="da">ham</span>.' }
+        q(`Hvad hedder ___? — Jeg hedder Lorenzo.`, [`du`, `dig`, `din`, `jeg`], `Il soggetto "tu" è <span class="da">du</span>; <span class="da">dig</span> è la forma oggetto.`),
+        q(`Kender du Camilla? Ja, jeg kender ___ godt.`, [`hende`, `hun`, `sig`, `hendes`], `Complemento oggetto femminile: <span class="da">hende</span>.`),
+        q(`Kan du hjælpe ___? <em>(noi)</em>`, [`os`, `vi`, `vores`, `jer`], `"Noi" come oggetto è <span class="da">os</span>.`),
+        q(`Kommer ___ fra Italien? <em>(voi)</em>`, [`I`, `jer`, `jeres`, `vi`], `"Voi" soggetto è <span class="da">I</span>, con la maiuscola.`),
+        q(`Det er ___ hus. <em>(mio)</em>`, [`mit`, `min`, `mine`, `mig`], `<span class="da">hus</span> è un et-ord, quindi <span class="da">mit</span>.`),
+        q(`Det er ___ cykel. <em>(mia)</em>`, [`min`, `mit`, `mine`, `mig`], `<span class="da">cykel</span> è un en-ord, quindi <span class="da">min</span>.`),
+        q(`Hvor er ___ bøger? <em>(i tuoi)</em>`, [`dine`, `din`, `dit`, `dig`], `Al plurale il possessivo prende <span class="da">-e</span>: <span class="da">dine</span>.`),
+        q(`Det er ___ lejlighed. <em>(nostro)</em>`, [`vores`, `vors`, `os`, `vore`], `<span class="da">vores</span> non cambia per genere né numero.`),
+        q(`Sofie og Lorenzo? Jeg ser ___ i morgen.`, [`dem`, `de`, `deres`, `sig`], `"Loro" come oggetto è <span class="da">dem</span>.`),
+        q(`De ___ altid før middag. <em>(si lavano)</em>`, [`vasker sig`, `vasker dem`, `vasker de`, `vasker deres`], `Riflessivo di 3ª persona plurale: <span class="da">sig</span>, come al singolare.`)
       ]
     },
 
     preposizioni: {
-      sommario: 'i, på, fra, til, med, hos: le preposizioni di tutti i giorni.',
+      sommario: `på, i e til, e la differenza tra på tirsdag e om tirsdagen.`,
       sezioni: [
         {
-          titolo: 'Le preposizioni di base',
+          titolo: `på, i, til (unità 4)`,
           html:
-            table(['Danese', 'Italiano', 'Esempio'], [
-              ['<span class="da">i</span>', 'in, a (città, paesi)', '<span class="da">Jeg bor i København.</span> Abito a Copenaghen.'],
-              ['<span class="da">på</span>', 'su, a (isole, luoghi, superfici)', '<span class="da">Han bor på Ærø.</span> Abita a Ærø.'],
-              ['<span class="da">fra</span>', 'da (provenienza)', '<span class="da">Anna kommer fra Danmark.</span>'],
-              ['<span class="da">til</span>', 'a, verso (direzione)', '<span class="da">Vi tager til Odense.</span> Andiamo a Odense.'],
-              ['<span class="da">med</span>', 'con', '<span class="da">Kaffe med mælk.</span> Caffè con latte.'],
-              ['<span class="da">hos</span>', 'da, presso (qualcuno)', '<span class="da">Jeg er hos lægen.</span> Sono dal medico.']
-            ])
+            table([`Preposizione`, `Uso`, `Esempio`], [
+              [`<span class="da">i</span>`, `paesi, città, spazi chiusi`, `Jeg bor i Danmark / i Odense.`],
+              [`<span class="da">på</span>`, `isole, luoghi pubblici, istituzioni`, `Jeg er på universitetet / på Fyn.`],
+              [`<span class="da">til</span>`, `moto a luogo, attività regolari`, `Jeg tager til Paris. Jeg går til klaver.`]
+            ]) +
+            tip(`Le scelte spesso vanno imparate a memoria: <span class="da">i biografen</span> ma <span class="da">på universitetet</span>, e <span class="da">i Jylland</span> anche se è una penisola.`)
         },
         {
-          titolo: 'i oppure på?',
+          titolo: `på tirsdag o om tirsdagen? (unità 5)`,
           html:
-            '<p>Con le <strong>città</strong> e i <strong>paesi</strong> si usa <span class="da">i</span>. Con le <strong>isole</strong> e con molti luoghi pubblici o di lavoro si usa <span class="da">på</span>.</p>' +
-            ex([['i Italien, i Rom, i Danmark', 'in Italia, a Roma, in Danimarca'], ['på Sjælland, på Bornholm', 'in Selandia, a Bornholm (isole)'], ['på arbejde, på universitetet, på biblioteket', 'al lavoro, all\'università, in biblioteca']]) +
-            tip('Le combinazioni con <span class="da">på</span> vanno imparate a memoria, un po\' come in italiano "in banca" ma "al supermercato".')
-        },
-        {
-          titolo: 'Andare a fare uno sport: gå til',
-          html:
-            '<p>Per dire che pratichi regolarmente un\'attività si usa <span class="da">gå til</span>.</p>' +
-            ex([['Jeg går til fitness.', 'Vado in palestra.'], ['Hun går til yoga.', 'Fa yoga.']])
+            ex([[`Han besøger mig på tirsdag.`, `Viene a trovarmi martedì (prossimo).`], [`Han besøger mig om tirsdagen.`, `Viene a trovarmi il martedì (ogni martedì).`]]) +
+            `<p><span class="da">om</span> + forma determinata indica un'azione ricorrente: <span class="da">om morgenen, om aftenen, om lørdagen</span>.</p>`
         }
       ],
       quiz: [
-        { domanda: 'Johan bor ___ København.', opzioni: ['i', 'på', 'til'], spiegazione: 'Con le città si usa <span class="da">i</span>.' },
-        { domanda: 'Anna kommer ___ Danmark.', opzioni: ['fra', 'til', 'med'], spiegazione: 'Provenienza: <span class="da">fra</span>.' },
-        { domanda: 'Han bor ___ Ærø. <em>(un\'isola)</em>', opzioni: ['på', 'i', 'hos'], spiegazione: 'Con le isole si usa <span class="da">på</span>.' },
-        { domanda: 'Vi tager ___ Odense i morgen.', opzioni: ['til', 'fra', 'i'], spiegazione: 'Direzione (andare a): <span class="da">til</span>.' },
-        { domanda: 'Jeg drikker kaffe ___ mælk.', opzioni: ['med', 'hos', 'på'], spiegazione: '"Con" = <span class="da">med</span>.' },
-        { domanda: 'Jeg er ___ lægen. <em>(dal medico)</em>', opzioni: ['hos', 'til', 'fra'], spiegazione: '"Da qualcuno" (stato) = <span class="da">hos</span>.' },
-        { domanda: 'Hun går ___ yoga.', opzioni: ['til', 'på', 'med'], spiegazione: 'Attività regolari: <span class="da">gå til</span>.' }
+        q(`Jeg bor ___ Danmark.`, [`i`, `på`, `til`, `om`], `Con i paesi si usa <span class="da">i</span>.`),
+        q(`Sofie studerer ___ universitetet.`, [`på`, `i`, `til`, `om`], `Si dice <span class="da">på universitetet</span>: va imparato insieme alla parola.`),
+        q(`Jeg tager ___ Paris i weekenden.`, [`til`, `i`, `på`, `om`], `Moto a luogo verso una destinazione: <span class="da">til</span>.`),
+        q(`Jeg går ___ klaver. <em>(prendo lezioni di pianoforte)</em>`, [`til`, `på`, `i`, `om`], `Per un'attività regolare il libro usa <span class="da">at gå til</span>.`),
+        q(`Vi er ___ biografen.`, [`i`, `på`, `til`, `ved`], `Il libro: <span class="da">jeg er i biografen</span> (sono al cinema).`),
+        q(`Mine forældre bor ___ Jylland.`, [`i`, `på`, `til`, `om`], `Anche se è una penisola, si dice <span class="da">i Jylland</span>.`),
+        q(`Han besøger mig ___ tirsdag. <em>(martedì prossimo)</em>`, [`på`, `om`, `i`, `til`], `<span class="da">på</span> + giorno = una sola volta, nel futuro vicino.`),
+        q(`Han besøger mig ___ tirsdagen. <em>(ogni martedì)</em>`, [`om`, `på`, `i`, `til`], `<span class="da">om</span> + forma determinata = azione che si ripete.`),
+        q(`Jeg drikker ikke kaffe ___ aftenen.`, [`om`, `på`, `i`, `til`], `Abitudine: <span class="da">om aftenen</span> = la sera, tutte le sere.`),
+        q(`Jeg er ___ møde. <em>(sono in riunione)</em>`, [`til`, `i`, `på`, `om`], `Per gli incontri e le riunioni si dice <span class="da">til møde</span>.`)
       ]
     },
 
     congiunzioni: {
-      sommario: 'og, men, eller, for, så: unire due frasi semplici.',
+      sommario: `Le congiunzioni coordinanti og, men, eller, for e så.`,
       sezioni: [
         {
-          titolo: 'Le congiunzioni coordinanti',
+          titolo: `Le cinque congiunzioni coordinanti`,
           html:
-            '<p>Queste congiunzioni uniscono due frasi "alla pari". Dopo di loro l\'ordine delle parole <strong>non cambia</strong>: soggetto e poi verbo.</p>' +
-            table(['Danese', 'Italiano', 'Esempio'], [
-              ['<span class="da">og</span>', 'e', '<span class="da">Anna og Tine kommer fra Danmark.</span>'],
-              ['<span class="da">men</span>', 'ma', '<span class="da">Jeg er træt, men jeg arbejder.</span>'],
-              ['<span class="da">eller</span>', 'o, oppure', '<span class="da">Vil du have kaffe eller te?</span>'],
-              ['<span class="da">for</span>', 'perché, poiché', '<span class="da">Jeg bliver hjemme, for jeg er syg.</span>'],
-              ['<span class="da">så</span>', 'quindi, così', '<span class="da">Jeg er syg, så jeg bliver hjemme.</span>']
+            table([`Danese`, `Italiano`, `Esempio`], [
+              [`<span class="da">og</span>`, `e`, `De spiste frokost, og bagefter fik de en drink.`],
+              [`<span class="da">eller</span>`, `o, oppure`, `Vil du have en øl, eller foretrækker du vin?`],
+              [`<span class="da">men</span>`, `ma`, `Hun hedder ikke Camilla, men Sofie.`],
+              [`<span class="da">for</span>`, `perché, infatti`, `De var glade, for solen skinnede.`],
+              [`<span class="da">så</span>`, `quindi, perciò`, `Det regnede, så Camilla blev hjemme.`]
             ]) +
-            tip('Il trucco per ricordarle: dopo <span class="da">og, men, eller, for, så</span> la seconda frase comincia come una frase normale: <strong>soggetto + verbo</strong>.')
-        },
-        {
-          titolo: 'Attenzione a "for"',
-          html:
-            '<p><span class="da">for</span> come congiunzione significa "perché" (spiegazione), ma è anche una preposizione ("per"). Nel livello intermedio vedrai <span class="da">fordi</span>, l\'altro "perché", che cambia la posizione degli avverbi.</p>'
+            tip(`Dopo queste congiunzioni l'ordine delle parole <strong>non cambia</strong>: soggetto e verbo restano come nella frase normale.`)
         }
       ],
       quiz: [
-        { domanda: 'Johan ___ Kristian bor i København. <em>(e)</em>', opzioni: ['og', 'men', 'eller'], spiegazione: '"E" = <span class="da">og</span>.' },
-        { domanda: 'Jeg er træt, ___ jeg arbejder. <em>(ma)</em>', opzioni: ['men', 'og', 'så'], spiegazione: '"Ma" = <span class="da">men</span>.' },
-        { domanda: 'Vil du have kaffe ___ te? <em>(o)</em>', opzioni: ['eller', 'og', 'for'], spiegazione: '"O, oppure" = <span class="da">eller</span>.' },
-        { domanda: 'Jeg bliver hjemme, ___ jeg er syg. <em>(perché)</em>', opzioni: ['for', 'så', 'men'], spiegazione: 'Spiegazione della causa: <span class="da">for</span>.' },
-        { domanda: 'Jeg er syg, ___ jeg bliver hjemme. <em>(quindi)</em>', opzioni: ['så', 'for', 'eller'], spiegazione: 'Conseguenza: <span class="da">så</span>.' },
-        { domanda: 'Quale frase è corretta?', opzioni: ['Jeg er træt, men jeg arbejder.', 'Jeg er træt, men arbejder jeg.', 'Jeg er træt, men jeg arbejder ikke er.'], spiegazione: 'Dopo <span class="da">men</span> l\'ordine resta soggetto + verbo.' }
+        q(`Jeg hedder Lorenzo, ___ jeg kommer fra Italien.`, [`og`, `men`, `eller`, `så`], `Si aggiunge un'informazione: <span class="da">og</span>.`),
+        q(`Skal vi cykle, ___ skal vi tage bussen?`, [`eller`, `og`, `for`, `så`], `Alternativa tra due possibilità: <span class="da">eller</span>.`),
+        q(`Jeg vil gerne have nyt tøj, ___ jeg har ikke nogen penge.`, [`men`, `og`, `for`, `eller`], `Contrasto: <span class="da">men</span> (ma).`),
+        q(`Sofie er syg, ___ hun kan desværre ikke komme i aften.`, [`så`, `for`, `eller`, `men`], `Conseguenza: <span class="da">så</span> (quindi).`),
+        q(`Tag hat på, ___ solen er meget stærk.`, [`for`, `så`, `eller`, `men`], `Si spiega il motivo di quanto detto prima: <span class="da">for</span>.`),
+        q(`Vil du have komælk, ___ foretrækker du plantemælk?`, [`eller`, `men`, `for`, `og`], `Domanda con alternativa: <span class="da">eller</span>.`),
+        q(`Hun hedder ikke Camilla, ___ Sofie.`, [`men`, `eller`, `og`, `så`], `Dopo una negazione si corregge con <span class="da">men</span>.`),
+        q(`Kaffen smagte ikke godt, ___ hun drak den ikke.`, [`så`, `for`, `men`, `eller`], `Il caffè non era buono, <strong>quindi</strong> non l'ha bevuto: <span class="da">så</span>.`),
+        q(`Jeg kan ikke komme i dag, ___ jeg kan godt på fredag.`, [`men`, `for`, `så`, `eller`], `Opposizione tra oggi e venerdì: <span class="da">men</span>.`),
+        q(`Vinden blæste koldt fra nord, ___ det regnede.`, [`og`, `eller`, `men`, `for`], `Due fatti che si sommano: <span class="da">og</span>.`)
       ]
     },
 
     inversione: {
-      sommario: 'La regola V2: il verbo sta al secondo posto. E le domande.',
+      sommario: `La regola V2: il verbo è sempre al 2° posto. Domande, risposte brevi e inversione del soggetto.`,
       sezioni: [
         {
-          titolo: 'La regola V2',
+          titolo: `Il verbo al secondo posto (unità 1 e 5)`,
           html:
-            '<p>Il danese è una lingua <strong>V2</strong>: nella frase principale il verbo coniugato sta sempre al <strong>secondo posto</strong>.</p>' +
-            table(['1° posto', '2° posto (verbo)', 'resto'], [
-              ['<span class="da">Jeg</span>', '<span class="da">hedder</span>', '<span class="da">Sofie.</span>'],
-              ['<span class="da">Han</span>', '<span class="da">er</span>', '<span class="da">ikke amerikaner.</span>']
+            `<p>Nella frase principale il verbo coniugato sta <strong>sempre in seconda posizione</strong>. Se al primo posto mettiamo qualcosa che non è il soggetto, il soggetto passa <strong>dopo il verbo</strong>: è l'inversione.</p>` +
+            table([`1° posto`, `Verbo`, `Soggetto`, `Resto`], [
+              [`Jeg`, `spiser`, ``, `frokost hver dag.`],
+              [`Hver dag`, `spiser`, `jeg`, `frokost.`],
+              [`Frokost`, `spiser`, `jeg`, `hver dag.`]
             ])
         },
         {
-          titolo: 'Domande sì/no: il verbo al primo posto',
+          titolo: `Domande e risposte brevi (unità 1–2)`,
           html:
-            '<p>Nelle domande a cui si risponde con <span class="da">ja</span> (sì) o <span class="da">nej</span> (no) il verbo va <strong>al primo posto</strong>, prima del soggetto. Questo scambio si chiama <strong>inversione</strong>.</p>' +
-            ex([['Du er dansker. → Er du dansker?', 'Sei danese. → Sei danese?'], ['Kan du også tale fransk?', 'Sai parlare anche francese?'], ['Hedder han ikke Lorenzo?', 'Non si chiama Lorenzo?']]) +
-            tip('In italiano basta cambiare l\'intonazione. In danese bisogna spostare il verbo!')
-        },
-        {
-          titolo: 'Domande con le parole in hv-',
-          html:
-            '<p>Le domande aperte cominciano con una parola interrogativa (quasi tutte iniziano con <strong>hv-</strong>). Subito dopo viene il verbo (secondo posto) e poi il soggetto.</p>' +
-            table(['Parola', 'Italiano', 'Esempio'], [
-              ['<span class="da">hvad</span>', 'che cosa', '<span class="da">Hvad hedder du?</span> Come ti chiami?'],
-              ['<span class="da">hvem</span>', 'chi', '<span class="da">Hvem er det?</span> Chi è?'],
-              ['<span class="da">hvor</span>', 'dove', '<span class="da">Hvor bor du?</span> Dove abiti?'],
-              ['<span class="da">hvornår</span>', 'quando', '<span class="da">Hvornår kommer du?</span>'],
-              ['<span class="da">hvorfor</span>', 'perché', '<span class="da">Hvorfor taler hun dansk?</span>'],
-              ['<span class="da">hvordan</span>', 'come', '<span class="da">Hvordan går det?</span> Come va?'],
-              ['<span class="da">hvis</span>', 'di chi', '<span class="da">Hvis bog er det?</span> Di chi è il libro?']
-            ])
+            `<p>Nelle domande sì/no il verbo va al primo posto: <span class="da">Er du italiener?</span> Con una parola interrogativa: <span class="da">Hvor bor du?</span></p>` +
+            ex([[`Er du træt? — Ja, det er jeg.`, `Sei stanco? — Sì.`], [`Har du en bil? — Nej, det har jeg ikke.`, `Hai una macchina? — No.`]]) +
+            tip(`Nella risposta breve si ripete il verbo e c'è inversione: <span class="da">det er jeg</span>, non <span class="da">det jeg er</span>.`)
         }
       ],
       quiz: [
-        { domanda: 'Metti in ordine: <em>du / hedder / hvad ?</em>', opzioni: ['Hvad hedder du?', 'Hvad du hedder?', 'Du hedder hvad?'], spiegazione: 'Parola hv- + verbo + soggetto.' },
-        { domanda: 'Come si chiede "Sei danese?"', opzioni: ['Er du dansker?', 'Du er dansker?', 'Dansker du er?'], spiegazione: 'Domanda sì/no: il verbo va al primo posto.' },
-        { domanda: 'Quale domanda è corretta?', opzioni: ['Hvor bor du?', 'Hvor du bor?', 'Bor hvor du?'], spiegazione: 'Il verbo sta al secondo posto, subito dopo <span class="da">hvor</span>.' },
-        { domanda: 'Come si dice "quando"?', opzioni: ['hvornår', 'hvorfor', 'hvordan'], spiegazione: '<span class="da">hvornår</span> = quando; <span class="da">hvorfor</span> = perché; <span class="da">hvordan</span> = come.' },
-        { domanda: 'Dove va <em>også</em>? "Sai parlare anche francese?"', opzioni: ['Kan du også tale fransk?', 'Også kan du tale fransk?', 'Kan også du tale fransk?'], spiegazione: 'Gli avverbi vanno dopo il gruppo verbo + soggetto.' },
-        { domanda: 'Quale frase rispetta la regola V2?', opzioni: ['Jeg hedder Sofie.', 'Jeg Sofie hedder.', 'Hedder Sofie jeg.'], spiegazione: 'Il verbo coniugato sta al secondo posto.' }
+        q(`Hver dag ___ frokost.`, [`spiser jeg`, `jeg spiser`, `spise jeg`, `jeg spise`], `Al 1° posto c'è "hver dag", quindi verbo e poi soggetto: <span class="da">spiser jeg</span>.`),
+        q(`Frokost ___ hver dag.`, [`spiser jeg`, `jeg spiser`, `jeg spise`, `spiser`], `L'oggetto messo in testa provoca l'inversione: <span class="da">Frokost spiser jeg</span>.`),
+        q(`Om aftenen ___ ikke kaffe.`, [`drikker de`, `de drikker`, `de ikke drikker`, `drikker`], `Espressione di tempo al 1° posto → <span class="da">drikker de</span>.`),
+        q(`Come si chiede "Sei italiano?"`, [`Er du italiener?`, `Du er italiener?`, `Italiener du er?`, `Er italiener du?`], `Nella domanda sì/no il verbo va al primo posto.`),
+        q(`Hvor ___?`, [`bor du`, `du bor`, `bo du`, `du bo`], `Dopo la parola interrogativa viene subito il verbo.`),
+        q(`A: Er du træt? B: Ja, ___.`, [`det er jeg`, `det jeg er`, `jeg er det`, `er jeg det`], `Risposta breve: <span class="da">det</span> + verbo + soggetto.`),
+        q(`A: Har du en bil? B: Nej, ___.`, [`det har jeg ikke`, `det jeg har ikke`, `jeg har det ikke`, `det har ikke jeg`], `Risposta breve negativa: <span class="da">det har jeg ikke</span>, con ikke alla fine.`),
+        q(`I morgen ___ til Odense.`, [`kører vi`, `vi kører`, `vi køre`, `køre vi`], `<span class="da">I morgen</span> al primo posto → verbo prima del soggetto.`),
+        q(`Scegli la frase corretta:`, [`Søndag morgen skal jeg i kirke.`, `Søndag morgen jeg skal i kirke.`, `Søndag morgen skal i kirke jeg.`, `Jeg søndag morgen skal i kirke.`], `Il verbo coniugato (<span class="da">skal</span>) resta al 2° posto.`),
+        q(`Hvad ___ i weekenden?`, [`laver du`, `du laver`, `laver`, `du lave`], `Domanda con <span class="da">hvad</span>: segue il verbo, poi il soggetto.`)
       ]
     }
   },
 
   /* =====================================================================
-   * INTERMEDIO
+   * INTERMEDIO · unità 6–10
    * ===================================================================== */
   intermedio: {
 
     verbi: {
-      sommario: 'Il passato (datid) e il passato prossimo (perfektum).',
+      sommario: `Imperativo, il modale måtte, i verbi di posizione e il passato prossimo con har o er.`,
       sezioni: [
         {
-          titolo: 'Il passato: due gruppi regolari',
+          titolo: `L'imperativo (unità 8)`,
           html:
-            '<p>Il passato danese (<em>datid</em>) corrisponde sia al passato prossimo sia al passato remoto/imperfetto italiano quando si parla di un momento finito. Come il presente, <strong>non cambia per persona</strong>.</p>' +
-            table(['Gruppo', 'Infinito', 'Passato', 'Participio'], [
-              ['1: <strong>-ede</strong>', 'at arbejde (lavorare)', '<span class="da">arbejdede</span>', '<span class="da">arbejdet</span>'],
-              ['1: <strong>-ede</strong>', 'at bo (abitare)', '<span class="da">boede</span>', '<span class="da">boet</span>'],
-              ['2: <strong>-te</strong>', 'at spise (mangiare)', '<span class="da">spiste</span>', '<span class="da">spist</span>'],
-              ['2: <strong>-te</strong>', 'at læse (leggere)', '<span class="da">læste</span>', '<span class="da">læst</span>']
+            `<p>Si forma togliendo la <strong>-e</strong> finale dell'infinito, senza soggetto. Non finisce mai con due consonanti uguali.</p>` +
+            table([`Infinito`, `Imperativo`, `Esempio`], [
+              [`at hente`, `hent`, `Hent vinen!`], [`at køre`, `kør`, `Kør forsigtigt!`], [`at have`, `hav`, `Hav en god aften!`], [`at ringe`, `ring`, `Ring til mig!`]
             ]) +
-            tip('Purtroppo non c\'è una regola sicura per sapere a quale gruppo appartiene un verbo: impara il passato insieme all\'infinito.')
+            tip(`Per essere più gentili si usa una domanda: <span class="da">Kunne du snakke lidt langsommere?</span>`)
         },
         {
-          titolo: 'Verbi irregolari importanti',
+          titolo: `Verbi di posizione (unità 9)`,
           html:
-            table(['Infinito', 'Passato', 'Participio'], [
-              ['at være (essere)', '<span class="da">var</span>', '<span class="da">været</span>'],
-              ['at have (avere)', '<span class="da">havde</span>', '<span class="da">haft</span>'],
-              ['at gå (andare a piedi)', '<span class="da">gik</span>', '<span class="da">gået</span>'],
-              ['at komme (venire)', '<span class="da">kom</span>', '<span class="da">kommet</span>'],
-              ['at se (vedere)', '<span class="da">så</span>', '<span class="da">set</span>'],
-              ['at drikke (bere)', '<span class="da">drak</span>', '<span class="da">drukket</span>'],
-              ['at sige (dire)', '<span class="da">sagde</span>', '<span class="da">sagt</span>'],
-              ['at tage (prendere)', '<span class="da">tog</span>', '<span class="da">taget</span>']
-            ])
+            `<p>Il danese dice <em>come</em> sta una cosa: <span class="da">ligge</span> (sdraiata, piatta), <span class="da">stå</span> (in piedi, dritta), <span class="da">hænge</span> (appesa), <span class="da">sidde</span> (seduta).</p>` +
+            ex([[`Nøglen ligger på spisebordet.`, `La chiave è sul tavolo.`], [`Cyklen står foran huset.`, `La bici è davanti a casa.`], [`Der hænger et billede på væggen.`, `C'è un quadro sulla parete.`]])
         },
         {
-          titolo: 'Il perfektum: har o er + participio',
+          titolo: `Il passato prossimo (unità 10)`,
           html:
-            '<p>Il <em>perfektum</em> si forma con <span class="da">har</span> + participio. Si usa per azioni passate collegate al presente, o quando non si dice quando sono successe.</p>' +
-            ex([['Jeg har set filmen.', 'Ho visto il film.'], ['Hun har boet i Italien i tre år.', 'Abita in Italia da tre anni.']]) +
-            '<p>Con i verbi che indicano <strong>movimento</strong> verso una meta o un <strong>cambiamento</strong> si usa <span class="da">er</span>, proprio come in italiano usiamo "essere".</p>' +
-            ex([['Han er kommet hjem.', 'È tornato a casa.'], ['Hun er blevet syg.', 'Si è ammalata.']]) +
-            tip('<span class="da">I går</span> (ieri), <span class="da">sidste år</span> (l\'anno scorso): con un momento preciso nel passato si usa il <strong>datid</strong>, non il perfektum: <span class="da">I går så jeg en film.</span>')
+            `<p><span class="da">har</span> / <span class="da">er</span> + participio passato. Grande gruppo debole: <span class="da">-et</span> (arbejdet); piccolo gruppo: <span class="da">-t</span> (læst).</p>` +
+            `<p>Con i verbi che indicano un <strong>cambiamento o spostamento</strong> si usa <span class="da">er</span>: <span class="da">Han er rejst</span> (è partito). Se indicano un'attività, <span class="da">har</span>: <span class="da">Han har rejst i Australien</span>.</p>` +
+            tip(`Per un'azione iniziata nel passato che continua ancora, il danese usa il passato prossimo dove l'italiano usa il presente: <span class="da">Sofie har studeret biologi i fire år</span> = Sofie studia biologia da quattro anni.`)
         }
       ],
       quiz: [
-        { domanda: 'I går ___ jeg til kl. 17. <em>(at arbejde)</em>', opzioni: ['arbejdede', 'arbejdet', 'arbejdte'], spiegazione: 'Gruppo 1: arbejde → <span class="da">arbejdede</span>.' },
-        { domanda: 'Hun ___ en sandwich. <em>(at spise, passato)</em>', opzioni: ['spiste', 'spisede', 'spist'], spiegazione: 'Gruppo 2: spise → <span class="da">spiste</span>.' },
-        { domanda: 'Vi ___ i Italien sidste år. <em>(at være)</em>', opzioni: ['var', 'er', 'været'], spiegazione: 'Passato di være: <span class="da">var</span>.' },
-        { domanda: 'Jeg har ___ den film. <em>(at se)</em>', opzioni: ['set', 'så', 'seet'], spiegazione: 'Participio di se: <span class="da">set</span>.' },
-        { domanda: 'Han ___ kommet hjem.', opzioni: ['er', 'har', 'var blevet'], spiegazione: 'Verbo di movimento verso una meta: <span class="da">er kommet</span>.' },
-        { domanda: 'De ___ til stranden i går. <em>(at gå)</em>', opzioni: ['gik', 'gåede', 'gået'], spiegazione: 'gå è irregolare: <span class="da">gik</span>.' },
-        { domanda: 'Hun ___ sagt ja.', opzioni: ['har', 'er', 'havde haft'], spiegazione: 'Perfektum normale con <span class="da">har</span>.' }
+        q(`___ vinen! <em>(at hente)</em>`, [`Hent`, `Hente`, `Henter`, `Hentt`], `Imperativo = infinito senza -e: <span class="da">hent</span>.`),
+        q(`___ forsigtigt! <em>(at køre)</em>`, [`Kør`, `Køre`, `Kører`, `Du kør`], `L'imperativo non ha soggetto e perde la -e: <span class="da">Kør!</span>`),
+        q(`___ en god aften! <em>(at have)</em>`, [`Hav`, `Har`, `Have`, `Haver`], `Per fare un augurio: <span class="da">Hav en god aften!</span>`),
+        q(`___ til mig i morgen! <em>(at ringe)</em>`, [`Ring`, `Ringe`, `Ringer`, `Rin`], `<span class="da">ringe → ring</span>: si toglie solo la -e.`),
+        q(`Nøglen ___ på spisebordet.`, [`ligger`, `står`, `hænger`, `sidder`], `Una chiave è piatta sul tavolo: <span class="da">ligger</span>.`),
+        q(`Cyklen ___ foran huset.`, [`står`, `ligger`, `hænger`, `sidder`], `La bici è dritta sulle ruote: <span class="da">står</span>.`),
+        q(`Der ___ et billede på væggen.`, [`hænger`, `ligger`, `står`, `sidder`], `Un quadro è appeso: <span class="da">hænger</span>.`),
+        q(`Han har ___ i to timer. <em>(at arbejde)</em>`, [`arbejdet`, `arbejdt`, `arbejder`, `arbejde`], `Grande gruppo debole: participio in <span class="da">-et</span>.`),
+        q(`Irene ___ taget hjem. <em>(è andata a casa)</em>`, [`er`, `har`, `bliver`, `var`], `Spostamento/cambiamento: ausiliare <span class="da">er</span>.`),
+        q(`Sofie studia biologia da quattro anni.`, [`Sofie har studeret biologi i fire år.`, `Sofie studerer biologi i fire år.`, `Sofie er studeret biologi i fire år.`, `Sofie studerede biologi i fire år.`], `Azione che continua fino a oggi: in danese passato prossimo con <span class="da">i</span> + durata.`)
       ]
     },
 
     avverbi: {
-      sommario: 'Avverbi nella principale e nella subordinata; hjem e hjemme.',
+      sommario: `Avverbi da aggettivi con -t, mange/meget/flere/mere e i comparativi irregolari.`,
       sezioni: [
         {
-          titolo: 'Avverbi di frase',
+          titolo: `Avverbi da aggettivi (unità 7)`,
           html:
-            '<p>Alcuni avverbi "commentano" tutta la frase: <span class="da">ikke</span> (non), <span class="da">aldrig</span> (mai), <span class="da">altid</span> (sempre), <span class="da">ofte</span> (spesso), <span class="da">også</span> (anche), <span class="da">gerne</span> (volentieri), <span class="da">allerede</span> (già).</p>' +
-            '<p>La loro posizione dipende dal tipo di frase.</p>'
+            `<p>Molti avverbi di modo si ottengono aggiungendo <strong>-t</strong> all'aggettivo, come la forma neutra.</p>` +
+            ex([[`Han er hurtig. → Han løber hurtigt.`, `È veloce. → Corre velocemente.`], [`Hun er god. → Hun synger godt.`, `È brava. → Canta bene.`]])
         },
         {
-          titolo: 'Principale: dopo il verbo',
+          titolo: `mange, meget, flere, mere (unità 8)`,
           html:
-            ex([['Hun kommer ikke i dag.', 'Lei oggi non viene.'], ['Jeg drikker aldrig kaffe om aftenen.', 'Non bevo mai caffè la sera.']])
-        },
-        {
-          titolo: 'Subordinata: prima del verbo',
-          html:
-            '<p>Nella frase subordinata (dopo <span class="da">at, fordi, når, hvis…</span>) l\'avverbio si mette <strong>tra il soggetto e il verbo</strong>.</p>' +
-            table(['Principale', 'Subordinata'], [
-              ['<span class="da">Han er ikke hjemme.</span>', '<span class="da">Jeg ved, at han ikke er hjemme.</span>'],
-              ['<span class="da">Hun kommer altid for sent.</span>', '<span class="da">…fordi hun altid kommer for sent.</span>']
+            table([``, `Numerabile (plurale)`, `Non numerabile`], [
+              [`tanto`, `<span class="da">mange</span> kartofler`, `<span class="da">meget</span> kaffe`],
+              [`di più / ancora`, `<span class="da">flere</span> kartofler`, `<span class="da">mere</span> mælk`]
             ]) +
-            tip('Formula da ricordare: subordinata = <strong>congiunzione + soggetto + avverbio + verbo</strong>.')
+            ex([[`Der er ikke flere æbler.`, `Non ci sono più mele.`], [`Der er ikke mere te.`, `Non c'è più tè.`]])
         },
         {
-          titolo: 'Stato o moto? hjemme / hjem',
+          titolo: `Comparativi irregolari (unità 10)`,
           html:
-            '<p>Alcuni avverbi di luogo hanno due forme: una per lo <strong>stato</strong> (dove sei) e una per il <strong>moto</strong> (dove vai).</p>' +
-            table(['Stato (dove?)', 'Moto (verso dove?)', 'Italiano'], [
-              ['<span class="da">hjemme</span>', '<span class="da">hjem</span>', 'a casa'],
-              ['<span class="da">ude</span>', '<span class="da">ud</span>', 'fuori'],
-              ['<span class="da">inde</span>', '<span class="da">ind</span>', 'dentro'],
-              ['<span class="da">oppe</span>', '<span class="da">op</span>', 'su'],
-              ['<span class="da">nede</span>', '<span class="da">ned</span>', 'giù']
-            ]) +
-            ex([['Jeg er hjemme.', 'Sono a casa.'], ['Jeg går hjem.', 'Vado a casa.']])
+            table([`Base`, `Comparativo`, `Superlativo`], [
+              [`god`, `bedre`, `bedst`], [`mange`, `flere`, `flest`], [`meget`, `mere`, `mest`], [`gerne`, `hellere`, `helst`], [`lille`, `mindre`, `mindst`]
+            ])
         }
       ],
       quiz: [
-        { domanda: 'Jeg drikker ___ kaffe om aftenen. <em>(mai)</em>', opzioni: ['aldrig', 'altid', 'allerede'], spiegazione: '"Mai" = <span class="da">aldrig</span>.' },
-        { domanda: 'Quale frase principale è corretta?', opzioni: ['Hun kommer ikke i dag.', 'Hun ikke kommer i dag.', 'Ikke hun kommer i dag.'], spiegazione: 'Nella principale l\'avverbio va dopo il verbo.' },
-        { domanda: 'Jeg ved, at han ___ hjemme.', opzioni: ['ikke er', 'er ikke', 'ikke'], spiegazione: 'Nella subordinata: soggetto + <strong>ikke</strong> + verbo.' },
-        { domanda: 'Jeg går ___ nu. <em>(vado a casa)</em>', opzioni: ['hjem', 'hjemme', 'hjemad'], spiegazione: 'Moto: <span class="da">hjem</span>.' },
-        { domanda: 'Jeg er ___ hele dagen. <em>(a casa)</em>', opzioni: ['hjemme', 'hjem', 'hjemmet'], spiegazione: 'Stato: <span class="da">hjemme</span>.' },
-        { domanda: 'Børnene leger ___ i haven. <em>(fuori, stato)</em>', opzioni: ['ude', 'ud', 'uden'], spiegazione: 'Stato: <span class="da">ude</span>.' },
-        { domanda: '…fordi hun ___ for sent.', opzioni: ['altid kommer', 'kommer altid', 'altid'], spiegazione: 'Dopo <span class="da">fordi</span>: soggetto + avverbio + verbo.' }
+        q(`Han løber meget ___. <em>(hurtig)</em>`, [`hurtigt`, `hurtig`, `hurtige`, `hurtigere end`], `Avverbio di modo = aggettivo + <span class="da">-t</span>.`),
+        q(`Hun synger ___. <em>(bene)</em>`, [`godt`, `god`, `gode`, `bedst`], `<span class="da">god</span> → avverbio <span class="da">godt</span>.`),
+        q(`Han har ___ penge.`, [`mange`, `meget`, `mere`, `flest`], `<span class="da">penge</span> è un plurale numerabile: <span class="da">mange</span>.`),
+        q(`Der er ___ trafik i dag.`, [`meget`, `mange`, `flere`, `nogle`], `<span class="da">trafik</span> non si conta: <span class="da">meget</span>.`),
+        q(`Må jeg få ___ kartofler?`, [`flere`, `mere`, `meget`, `mest`], `Una quantità in più di una cosa numerabile: <span class="da">flere</span>.`),
+        q(`Må jeg få ___ mælk?`, [`mere`, `flere`, `mange`, `flest`], `Latte non si conta: <span class="da">mere</span>.`),
+        q(`Der er ikke ___ æbler. <em>(non ci sono più mele)</em>`, [`flere`, `mere`, `mange`, `meget`], `<span class="da">ikke flere</span> + plurale numerabile = non più.`),
+        q(`Jeg drikker ___ te end kaffe. <em>(preferisco)</em>`, [`hellere`, `gerne`, `bedre`, `mere gerne`], `<span class="da">gerne – hellere – helst</span>: "più volentieri".`),
+        q(`Vejret bliver ___ i weekenden. <em>(migliore)</em>`, [`bedre`, `godere`, `mere god`, `bedst`], `<span class="da">god – bedre – bedst</span> è irregolare.`),
+        q(`Der er ___ indere end kinesere.`, [`flere`, `mere`, `mange`, `meget`], `Confronto tra quantità numerabili: <span class="da">flere … end</span>.`)
       ]
     },
 
     pronomi: {
-      sommario: 'Tutti i possessivi e la differenza tra sin e hans/hendes.',
+      sommario: `nogen/noget/nogle, il possessivo riflessivo sin/sit/sine e il pronome man.`,
       sezioni: [
         {
-          titolo: 'I possessivi',
+          titolo: `nogen, noget, nogle (unità 8)`,
           html:
-            table(['Persona', 'Comune (en)', 'Neutro (et)', 'Plurale'], [
-              ['mio', '<span class="da">min</span>', '<span class="da">mit</span>', '<span class="da">mine</span>'],
-              ['tuo', '<span class="da">din</span>', '<span class="da">dit</span>', '<span class="da">dine</span>'],
-              ['suo (di lui)', '<span class="da">hans</span>', '<span class="da">hans</span>', '<span class="da">hans</span>'],
-              ['suo (di lei)', '<span class="da">hendes</span>', '<span class="da">hendes</span>', '<span class="da">hendes</span>'],
-              ['suo (riflessivo)', '<span class="da">sin</span>', '<span class="da">sit</span>', '<span class="da">sine</span>'],
-              ['nostro', '<span class="da">vores</span>', '<span class="da">vores</span>', '<span class="da">vores</span>'],
-              ['vostro', '<span class="da">jeres</span>', '<span class="da">jeres</span>', '<span class="da">jeres</span>'],
-              ['loro', '<span class="da">deres</span>', '<span class="da">deres</span>', '<span class="da">deres</span>']
-            ]) +
-            '<p>Solo <span class="da">min, din, sin</span> cambiano forma. Gli altri restano uguali.</p>'
+            table([`Forma`, `Quando`, `Esempio`], [
+              [`<span class="da">noget</span>`, `non numerabile, o neutro singolare in frasi negative/domande`, `Vi har noget salt. Familien har ikke noget kæledyr.`],
+              [`<span class="da">nogen</span>`, `domande e negazioni (comune singolare o plurale), persone`, `Har du nogen søskende?`],
+              [`<span class="da">nogle</span>`, `frasi affermative al plurale`, `De køber nogle æbler.`]
+            ])
         },
         {
-          titolo: 'sin oppure hans/hendes?',
+          titolo: `sin, sit, sine o hans, hendes? (unità 10)`,
           html:
-            '<p>Questa è una delle difficoltà più tipiche per gli italiani. In italiano "suo" è ambiguo; il danese invece distingue:</p>' +
-            '<ul><li><span class="da">sin / sit / sine</span> quando il possessore è <strong>il soggetto della stessa frase</strong>.</li>' +
-            '<li><span class="da">hans / hendes</span> quando il possessore è <strong>un\'altra persona</strong>.</li></ul>' +
-            ex([['Peter kører i sin bil.', 'Peter guida la sua (propria) macchina.'], ['Peter kører i hans bil.', 'Peter guida la macchina di lui (di un altro uomo).'], ['Anna besøger sine forældre.', 'Anna va a trovare i suoi genitori.']]) +
-            tip('<span class="da">sin</span> non può mai far parte del soggetto: si dice <span class="da">Peter og hans kone</span>, non "sin kone", quando sono il soggetto.')
+            `<p>Alla 3ª persona singolare, se la cosa appartiene <strong>al soggetto stesso</strong>, si usa il riflessivo <span class="da">sin / sit / sine</span>, che concorda con la cosa posseduta.</p>` +
+            ex([[`Hun tager sin taske.`, `Prende la sua (propria) borsa.`], [`Hun tager hendes taske.`, `Prende la borsa di un'altra.`], [`De elsker deres børn.`, `Al plurale si usa sempre deres.`]])
+        },
+        {
+          titolo: `man / en (unità 10)`,
+          html:
+            `<p><span class="da">man</span> è il "si" impersonale e fa solo da soggetto; come complemento diventa <span class="da">en</span>.</p>` +
+            ex([[`Man bliver glad af god mad.`, `Si diventa felici con il buon cibo.`], [`God mad gør en glad.`, `Il buon cibo rende felici.`]])
         }
       ],
       quiz: [
-        { domanda: 'Det er ___ bil. <em>(tua; en bil)</em>', opzioni: ['din', 'dit', 'dine'], spiegazione: 'Nome comune → <span class="da">din</span>.' },
-        { domanda: 'Det er ___ hus. <em>(tuo; et hus)</em>', opzioni: ['dit', 'din', 'dine'], spiegazione: 'Nome neutro → <span class="da">dit</span>.' },
-        { domanda: 'Peter kører i ___ bil. <em>(la propria)</em>', opzioni: ['sin', 'hans', 'sit'], spiegazione: 'Il possessore è il soggetto: <span class="da">sin</span>.' },
-        { domanda: 'Peter kører i ___ bil. <em>(quella di Lars)</em>', opzioni: ['hans', 'sin', 'sit'], spiegazione: 'Il possessore è un\'altra persona: <span class="da">hans</span>.' },
-        { domanda: 'Det er ___ lejlighed. <em>(nostro)</em>', opzioni: ['vores', 'vor', 'voreses'], spiegazione: '"Nostro" = <span class="da">vores</span>, invariabile.' },
-        { domanda: 'Anna besøger ___ forældre. <em>(i propri)</em>', opzioni: ['sine', 'hendes', 'sin'], spiegazione: 'Riflessivo plurale: <span class="da">sine</span>.' },
-        { domanda: 'Er det ___ hund? <em>(di lei)</em>', opzioni: ['hendes', 'hende', 'hun'], spiegazione: 'Possessivo di "lei": <span class="da">hendes</span>.' }
+        q(`Vi har ___ salt i køkkenet.`, [`noget`, `nogen`, `nogle`, `mange`], `Sale = non numerabile: <span class="da">noget</span>.`),
+        q(`De køber ___ æbler.`, [`nogle`, `noget`, `nogen`, `meget`], `Frase affermativa con plurale: <span class="da">nogle</span>.`),
+        q(`Har du ___ søskende?`, [`nogen`, `noget`, `nogle`, `meget`], `Domanda con un plurale: <span class="da">nogen</span>.`),
+        q(`Familien har ikke ___ kæledyr.`, [`noget`, `nogle`, `nogen`, `mange`], `Negativa con un et-ord singolare (et kæledyr): <span class="da">noget</span>.`),
+        q(`Hun tager ___ taske. <em>(la propria)</em>`, [`sin`, `hendes`, `sit`, `sine`], `Appartiene al soggetto e <span class="da">taske</span> è en-ord: <span class="da">sin</span>.`),
+        q(`Han er god til ___ job. <em>(il proprio)</em>`, [`sit`, `sin`, `hans`, `sine`], `<span class="da">job</span> è neutro: <span class="da">sit</span>.`),
+        q(`Hun elsker ___ børn. <em>(i propri)</em>`, [`sine`, `sin`, `deres`, `hendes egen`], `Plurale della cosa posseduta: <span class="da">sine</span>.`),
+        q(`De elsker ___ børn.`, [`deres`, `sine`, `sin`, `dem`], `Con un soggetto plurale si usa sempre <span class="da">deres</span>.`),
+        q(`Hvor tit bør ___ børste tænder? <em>(si)</em>`, [`man`, `en`, `sig`, `den`], `Il soggetto impersonale è <span class="da">man</span>.`),
+        q(`God mad gør ___ glad.`, [`en`, `man`, `sig`, `ens`], `Come complemento <span class="da">man</span> diventa <span class="da">en</span>.`)
       ]
     },
 
     preposizioni: {
-      sommario: 'Preposizioni di tempo: i, om, på, for … siden.',
+      sommario: `Preposizioni di luogo con i verbi di posizione, e i / siden con il passato prossimo.`,
       sezioni: [
         {
-          titolo: 'Parlare del tempo',
+          titolo: `Dove si trova? (unità 9)`,
           html:
-            table(['Espressione', 'Significato', 'Esempio'], [
-              ['<span class="da">i dag / i morgen / i går</span>', 'oggi / domani / ieri', '<span class="da">I morgen arbejder jeg.</span>'],
-              ['<span class="da">om</span> + durata', 'tra (nel futuro)', '<span class="da">Jeg kommer om to timer.</span> Vengo tra due ore.'],
-              ['<span class="da">for … siden</span>', 'fa', '<span class="da">Jeg boede i Rom for fem år siden.</span> Abitavo a Roma cinque anni fa.'],
-              ['<span class="da">i</span> + durata', 'per, da (durata)', '<span class="da">Hun har boet her i tre år.</span> Vive qui da tre anni.'],
-              ['<span class="da">på</span> + giorno', 'prossimo', '<span class="da">Vi ses på fredag.</span> Ci vediamo venerdì.'],
-              ['<span class="da">om</span> + forma determinata', 'ogni, di solito', '<span class="da">Om mandagen spiller jeg fodbold.</span> Il lunedì gioco a calcio.'],
-              ['<span class="da">til</span> + festa', 'a, per', '<span class="da">til jul, til påske</span> a Natale, a Pasqua']
-            ])
+            table([`Danese`, `Italiano`], [
+              [`på`, `su (superficie)`], [`i`, `in, dentro`], [`under`, `sotto`], [`over`, `sopra (senza toccare)`],
+              [`foran`, `davanti a`], [`bagved`, `dietro`], [`mellem`, `tra`], [`ved siden af`, `accanto a`]
+            ]) +
+            ex([[`Bolden ligger i kassen.`, `La palla è nella scatola.`], [`Kassen står mellem to bolde.`, `La scatola è tra due palle.`], [`Pengene ligger i pungen.`, `I soldi sono nel portafoglio.`]])
         },
         {
-          titolo: 'Le stagioni e le parti del giorno',
+          titolo: `i e siden con il passato prossimo (unità 10)`,
           html:
-            '<p>Per abitudini e momenti ricorrenti si usa <span class="da">om</span> + forma determinata:</p>' +
-            ex([['om morgenen', 'la mattina'], ['om aftenen', 'la sera'], ['om sommeren', 'd\'estate'], ['om vinteren', 'd\'inverno']]) +
-            tip('Ma: <span class="da">i aften</span> = stasera, <span class="da">i sommer</span> = quest\'estate (una volta sola).')
+            ex([[`Sofie har studeret biologi i fire år.`, `… da quattro anni (durata).`], [`Fru Nielsen har været pensionist siden 2020.`, `… dal 2020 (punto di partenza).`]])
         }
       ],
       quiz: [
-        { domanda: 'Jeg kommer ___ to timer. <em>(tra due ore)</em>', opzioni: ['om', 'i', 'for'], spiegazione: 'Futuro: <span class="da">om</span> + durata.' },
-        { domanda: 'Jeg boede i Rom ___ fem år siden.', opzioni: ['for', 'om', 'i'], spiegazione: '"Fa" = <span class="da">for … siden</span>.' },
-        { domanda: '___ mandagen spiller vi fodbold. <em>(ogni lunedì)</em>', opzioni: ['Om', 'På', 'I'], spiegazione: 'Abitudine: <span class="da">om</span> + forma determinata.' },
-        { domanda: 'Vi ses ___ fredag. <em>(venerdì prossimo)</em>', opzioni: ['på', 'om', 'til'], spiegazione: 'Giorno prossimo: <span class="da">på</span>.' },
-        { domanda: 'Hun har boet her ___ tre år.', opzioni: ['i', 'om', 'på'], spiegazione: 'Durata: <span class="da">i</span>.' },
-        { domanda: '"Domani" si dice:', opzioni: ['i morgen', 'om morgenen', 'på morgen'], spiegazione: '<span class="da">i morgen</span> = domani; <span class="da">om morgenen</span> = la mattina.' },
-        { domanda: 'Vi rejser til Italien ___ jul.', opzioni: ['til', 'på', 'om'], spiegazione: 'Con le feste: <span class="da">til jul</span>.' }
+        q(`Nøglen ligger ___ spisebordet.`, [`på`, `i`, `under`, `mellem`], `Sulla superficie del tavolo: <span class="da">på</span>.`),
+        q(`Pengene ligger ___ pungen.`, [`i`, `på`, `over`, `ved`], `Dentro il portafoglio: <span class="da">i</span>.`),
+        q(`Stolen står ___ bordet. <em>(davanti a)</em>`, [`foran`, `bagved`, `under`, `over`], `<span class="da">foran</span> = davanti a.`),
+        q(`Bolden ligger ___ kassen. <em>(dietro)</em>`, [`bagved`, `foran`, `i`, `på`], `<span class="da">bagved</span> = dietro.`),
+        q(`Kassen står ___ to bolde. <em>(tra)</em>`, [`mellem`, `ved`, `over`, `under`], `<span class="da">mellem</span> = tra.`),
+        q(`Katten sover ___ sengen. <em>(sotto)</em>`, [`under`, `over`, `bagved`, `mellem`], `<span class="da">under</span> = sotto.`),
+        q(`Lampen hænger ___ bordet. <em>(sopra)</em>`, [`over`, `på`, `under`, `i`], `Sopra senza toccare: <span class="da">over</span>.`),
+        q(`Der hænger et billede ___ væggen.`, [`på`, `i`, `over`, `ved`], `Appeso alla parete: <span class="da">på væggen</span>.`),
+        q(`Sofie har studeret biologi ___ fire år.`, [`i`, `siden`, `for`, `på`], `Durata di un'azione ancora in corso: <span class="da">i</span> + periodo.`),
+        q(`Fru Nielsen har været pensionist ___ 2020.`, [`siden`, `i`, `fra`, `for`], `Punto di partenza: <span class="da">siden</span> (dal).`)
       ]
     },
 
     congiunzioni: {
-      sommario: 'Le congiunzioni subordinanti: at, fordi, når, da, hvis, om, selvom.',
+      sommario: `end nei paragoni, at (che), fordi (perché) e for contro fordi.`,
       sezioni: [
         {
-          titolo: 'Congiunzioni subordinanti',
+          titolo: `end: il secondo termine di paragone (unità 10)`,
           html:
-            table(['Danese', 'Italiano', 'Esempio'], [
-              ['<span class="da">at</span>', 'che', '<span class="da">Jeg ved, at du er træt.</span>'],
-              ['<span class="da">fordi</span>', 'perché', '<span class="da">Jeg bliver hjemme, fordi jeg er syg.</span>'],
-              ['<span class="da">når</span>', 'quando (presente, futuro, ripetuto)', '<span class="da">Når det regner, tager jeg bussen.</span>'],
-              ['<span class="da">da</span>', 'quando (una volta nel passato)', '<span class="da">Da jeg var barn, boede jeg i Napoli.</span>'],
-              ['<span class="da">hvis</span>', 'se (condizione)', '<span class="da">Hvis du har tid, kan vi drikke kaffe.</span>'],
-              ['<span class="da">om</span>', 'se (domanda indiretta)', '<span class="da">Jeg ved ikke, om han kommer.</span>'],
-              ['<span class="da">selvom</span>', 'anche se, benché', '<span class="da">Hun går en tur, selvom det regner.</span>'],
-              ['<span class="da">mens</span>', 'mentre', '<span class="da">Han læser, mens hun laver mad.</span>']
-            ])
+            ex([[`Det er koldere i dag end i går.`, `Fa più freddo oggi che ieri.`], [`Marts er varmere end januar.`, `Marzo è più caldo di gennaio.`]]) +
+            tip(`"di" e "che" del paragone si traducono sempre con <span class="da">end</span>.`)
         },
         {
-          titolo: 'når o da?',
+          titolo: `at e fordi`,
           html:
-            '<p>Entrambe significano "quando":</p>' +
-            '<ul><li><span class="da">når</span>: presente, futuro, o azioni ripetute nel passato ("ogni volta che").</li>' +
-            '<li><span class="da">da</span>: un singolo momento o periodo nel passato.</li></ul>' +
-            ex([['Når jeg kommer hjem, spiser jeg.', 'Quando torno a casa, mangio.'], ['Da jeg kom hjem i går, spiste jeg.', 'Quando sono tornato ieri, ho mangiato.']])
-        },
-        {
-          titolo: 'hvis o om?',
-          html:
-            '<p>Entrambe significano "se". <span class="da">hvis</span> esprime una <strong>condizione</strong>; <span class="da">om</span> introduce una <strong>domanda indiretta</strong> (puoi sostituirlo con "se… o no").</p>' +
-            tip('Ricorda: nella subordinata l\'avverbio va prima del verbo: <span class="da">…fordi jeg ikke har tid.</span>')
+            ex([[`Jeg tror, at han er gift.`, `Credo che sia sposato.`], [`De unge flytter, fordi de vil gå på universitetet.`, `I giovani si trasferiscono perché vogliono andare all'università.`]]) +
+            `<p><span class="da">for</span> e <span class="da">fordi</span> vogliono dire entrambi "perché": <span class="da">fordi</span> introduce una subordinata (con <span class="da">ikke</span> prima del verbo), <span class="da">for</span> una frase principale e non può stare all'inizio.</p>`
         }
       ],
       quiz: [
-        { domanda: 'Jeg bliver hjemme, ___ jeg er syg.', opzioni: ['fordi', 'selvom', 'om'], spiegazione: 'Causa: <span class="da">fordi</span>.' },
-        { domanda: '___ jeg var barn, boede jeg i Napoli.', opzioni: ['Da', 'Når', 'Hvis'], spiegazione: 'Un periodo concluso nel passato: <span class="da">da</span>.' },
-        { domanda: '___ det regner, tager jeg bussen. <em>(ogni volta che)</em>', opzioni: ['Når', 'Da', 'Om'], spiegazione: 'Azione ripetuta: <span class="da">når</span>.' },
-        { domanda: 'Jeg ved ikke, ___ han kommer. <em>(se)</em>', opzioni: ['om', 'hvis', 'at'], spiegazione: 'Domanda indiretta: <span class="da">om</span>.' },
-        { domanda: '___ du har tid, kan vi drikke kaffe. <em>(se)</em>', opzioni: ['Hvis', 'Om', 'Da'], spiegazione: 'Condizione: <span class="da">hvis</span>.' },
-        { domanda: 'Hun går en tur, ___ det regner. <em>(anche se)</em>', opzioni: ['selvom', 'fordi', 'mens'], spiegazione: '"Anche se" = <span class="da">selvom</span>.' },
-        { domanda: 'Jeg kommer ikke, fordi jeg ___ tid.', opzioni: ['ikke har', 'har ikke', 'ikke'], spiegazione: 'Subordinata: avverbio prima del verbo.' }
+        q(`Marts er varmere ___ januar.`, [`end`, `som`, `af`, `at`], `Nei paragoni "di/che" = <span class="da">end</span>.`),
+        q(`Det er koldere i dag ___ i går.`, [`end`, `som`, `så`, `og`], `Comparativo + <span class="da">end</span>.`),
+        q(`Der er flere indere ___ kinesere.`, [`end`, `af`, `som`, `fra`], `Anche con <span class="da">flere</span>: <span class="da">end</span>.`),
+        q(`Jeg tror, ___ han kommer i morgen.`, [`at`, `om`, `end`, `for`], `"che" dopo verbi di opinione: <span class="da">at</span>.`),
+        q(`De unge flytter, ___ de vil gå på universitetet.`, [`fordi`, `at`, `end`, `men`], `Causa: <span class="da">fordi</span> (perché).`),
+        q(`Quale di queste congiunzioni <strong>non</strong> può stare all'inizio della frase?`, [`For`, `Fordi`, `Når`, `Hvis`], `<span class="da">for</span> collega due principali e non può stare in testa alla frase.`),
+        q(`Han ligger i sengen, fordi han ___.`, [`ikke har det godt`, `har ikke det godt`, `har det ikke godt`, `det har ikke godt`], `Nella subordinata <span class="da">ikke</span> va prima del verbo.`),
+        q(`Han ligger i sengen, for han ___.`, [`har det ikke godt`, `ikke har det godt`, `ikke det har godt`, `har ikke godt det`], `Dopo <span class="da">for</span> l'ordine è quello della principale: <span class="da">ikke</span> dopo il verbo.`),
+        q(`Han siger, ___ hun er venlig.`, [`at`, `om`, `end`, `fordi`], `Discorso indiretto affermativo: <span class="da">at</span>.`),
+        q(`Den nye lejlighed er større ___ den gamle.`, [`end`, `som`, `og`, `at`], `Paragone di maggioranza: <span class="da">større end</span>.`)
       ]
     },
 
     inversione: {
-      sommario: "Quando la frase non inizia con il soggetto, il soggetto va dopo il verbo.",
+      sommario: `Il soggetto provvisorio der, l'inversione con il passato prossimo e i modali.`,
       sezioni: [
         {
-          titolo: "L'inversione",
+          titolo: `Il soggetto provvisorio der (unità 9)`,
           html:
-            '<p>La regola V2 vale sempre: il verbo resta al <strong>secondo posto</strong>. Quindi, se al primo posto metti qualcosa di diverso dal soggetto (un\'espressione di tempo, di luogo, un avverbio…), il soggetto deve spostarsi <strong>dopo il verbo</strong>.</p>' +
-            table(['1° posto', 'Verbo', 'Soggetto', 'Resto'], [
-              ['<span class="da">Jeg</span>', '<span class="da">arbejder</span>', '', '<span class="da">i dag.</span>'],
-              ['<span class="da">I dag</span>', '<span class="da">arbejder</span>', '<span class="da">jeg</span>', ''],
-              ['<span class="da">Om aftenen</span>', '<span class="da">ser</span>', '<span class="da">vi</span>', '<span class="da">fjernsyn.</span>'],
-              ['<span class="da">Desværre</span>', '<span class="da">kan</span>', '<span class="da">jeg</span>', '<span class="da">ikke komme.</span>']
-            ]) +
-            tip('Errore tipico degli italiani: <s>I dag jeg arbejder</s>. Corretto: <span class="da">I dag arbejder jeg.</span>')
+            `<p>Quando il soggetto è indeterminato si apre la frase con <span class="da">der</span> e il vero soggetto va dopo il verbo.</p>` +
+            ex([[`Mange lejligheder er i byen. → Der er mange lejligheder i byen.`, `Ci sono molti appartamenti in città.`], [`Der ligger en avis i postkassen.`, `C'è un giornale nella cassetta.`], [`Der kommer mange gæster til festen.`, `Vengono molti ospiti alla festa.`]])
         },
         {
-          titolo: 'Dopo una subordinata',
+          titolo: `V2 con i tempi composti`,
           html:
-            '<p>Se la frase comincia con una subordinata intera, quella conta come "primo posto". Quindi nella principale che segue viene subito il verbo.</p>' +
-            ex([['Når jeg kommer hjem, spiser jeg.', 'Quando torno a casa, mangio.'], ['Hvis det regner, bliver vi hjemme.', 'Se piove, restiamo a casa.']])
-        },
-        {
-          titolo: "Dove va ikke con l'inversione?",
-          html:
-            '<p>Quando il soggetto è un pronome, l\'ordine è: verbo + soggetto + <span class="da">ikke</span>.</p>' +
-            ex([['I dag arbejder jeg ikke.', 'Oggi non lavoro.'], ['Hvorfor kommer du ikke?', 'Perché non vieni?']])
+            `<p>Con il passato prossimo o un modale, al 2° posto va l'<strong>ausiliare</strong>; il participio o l'infinito restano in fondo.</p>` +
+            ex([[`I dag har jeg arbejdet hele dagen.`, `Oggi ho lavorato tutto il giorno.`], [`Der har jeg aldrig været.`, `Lì non ci sono mai stato.`]]) +
+            tip(`<span class="da">ikke</span> e <span class="da">aldrig</span> vanno dopo verbo + soggetto, prima del participio.`)
         }
       ],
       quiz: [
-        { domanda: 'I morgen ___ til Aarhus.', opzioni: ['tager jeg', 'jeg tager', 'tager'], spiegazione: 'Primo posto = "I morgen" → verbo + soggetto.' },
-        { domanda: 'Quale frase è corretta?', opzioni: ['Om aftenen ser vi fjernsyn.', 'Om aftenen vi ser fjernsyn.', 'Om aftenen fjernsyn vi ser.'], spiegazione: 'Il verbo resta al secondo posto: <span class="da">ser vi</span>.' },
-        { domanda: 'Når jeg kommer hjem, ___.', opzioni: ['spiser jeg', 'jeg spiser', 'jeg spiser ikke'], spiegazione: 'La subordinata occupa il primo posto → inversione.' },
-        { domanda: 'Desværre ___ ikke komme.', opzioni: ['kan jeg', 'jeg kan', 'kan'], spiegazione: 'Avverbio al primo posto → verbo + soggetto.' },
-        { domanda: 'Dove va <em>ikke</em>? Scegli la frase corretta.', opzioni: ['I dag arbejder jeg ikke.', 'I dag arbejder ikke jeg.', 'I dag jeg arbejder ikke.'], spiegazione: 'Verbo + pronome soggetto + <span class="da">ikke</span>.' },
-        { domanda: 'Hvorfor ___ dansk?', opzioni: ['lærer du', 'du lærer', 'lærer'], spiegazione: 'Parola hv- + verbo + soggetto.' },
-        { domanda: 'Hvis det regner, ___ hjemme.', opzioni: ['bliver vi', 'vi bliver', 'vi'], spiegazione: 'Subordinata al primo posto → inversione nella principale.' }
+        q(`___ en avis i postkassen.`, [`Der ligger`, `Ligger der`, `Det ligger`, `Den ligger`], `Soggetto indeterminato → <span class="da">Der ligger…</span>`),
+        q(`___ mange mennesker i Kina.`, [`Der bor`, `Det bor`, `Bor der`, `De bor`], `Il soggetto provvisorio è <span class="da">der</span>, non <span class="da">det</span>.`),
+        q(`I morgen ___ mange gæster til festen.`, [`kommer der`, `der kommer`, `kommer det`, `det kommer`], `Inversione: verbo al 2° posto, poi <span class="da">der</span>.`),
+        q(`Scegli la frase corretta:`, [`I dag har jeg arbejdet hele dagen.`, `I dag jeg har arbejdet hele dagen.`, `I dag har arbejdet jeg hele dagen.`, `I dag arbejdet har jeg hele dagen.`], `L'ausiliare <span class="da">har</span> al 2° posto, poi soggetto, poi participio.`),
+        q(`Der ___ aldrig været. <em>(Lì non sono mai stato)</em>`, [`har jeg`, `jeg har`, `er jeg`, `jeg er`], `<span class="da">Der</span> (lì) in testa → inversione: <span class="da">har jeg</span>.`),
+        q(`Scegli la frase corretta:`, [`Hun har ikke set filmen.`, `Hun ikke har set filmen.`, `Hun har set ikke filmen.`, `Ikke hun har set filmen.`], `<span class="da">ikke</span> va tra l'ausiliare e il participio.`),
+        q(`A: Har du set filmen? B: Ja, ___.`, [`det har jeg`, `det jeg har`, `jeg har det`, `har jeg det`], `Risposta breve: <span class="da">det har jeg</span>.`),
+        q(`Hvor længe ___ i Danmark?`, [`har du boet`, `du har boet`, `har boet du`, `boet har du`], `Domanda: ausiliare, soggetto, participio.`),
+        q(`Scegli la frase corretta:`, [`Der står en flaske vin i skabet.`, `Det står en flaske vin i skabet.`, `En flaske vin der står i skabet.`, `Står der en flaske vin i skabet det.`], `Soggetto indeterminato con verbo di posizione: <span class="da">Der står…</span>`),
+        q(`På lørdag ___ til fest hos Charlotte.`, [`skal vi`, `vi skal`, `skal`, `vi skal gå`], `Espressione di tempo in testa → <span class="da">skal vi</span>.`)
       ]
     }
   },
 
   /* =====================================================================
-   * AVANZATO
+   * AVANZATO · unità 11–15
    * ===================================================================== */
   avanzato: {
 
     verbi: {
-      sommario: 'Passivo, verbi deponenti, trapassato e condizionale.',
+      sommario: `Futuro, preterito, tro o synes, passivo, trapassato e azione durativa.`,
       sezioni: [
         {
-          titolo: 'Il passivo con -s',
+          titolo: `Il futuro (unità 11)`,
           html:
-            '<p>Si aggiunge <strong>-s</strong> all\'infinito (o al presente senza -r). È molto usato per azioni generali, regole, abitudini e istruzioni.</p>' +
-            ex([['Butikken åbnes kl. 9.', 'Il negozio apre (viene aperto) alle 9.'], ['Her tales dansk.', 'Qui si parla danese.'], ['Huset skal males.', 'La casa deve essere dipinta.']])
+            `<p>Il danese non ha un tempo futuro vero e proprio. Si usa il presente con un'indicazione di tempo, i modali <span class="da">skal / vil</span>, oppure <span class="da">blive</span> e <span class="da">komme</span>.</p>` +
+            ex([[`Han spiser hjemme i aften.`, `Mangerà a casa stasera.`], [`Jeg skal flytte til Italien.`, `Mi trasferirò in Italia.`], [`Det bliver godt vejr i weekenden.`, `Farà bel tempo nel fine settimana.`], [`Der kommer meget regn i morgen.`, `Verrà molta pioggia domani.`]])
         },
         {
-          titolo: 'Il passivo con blive',
+          titolo: `Il preterito (unità 12)`,
           html:
-            '<p><span class="da">blive</span> + participio si usa soprattutto per azioni singole e concrete, spesso al passato.</p>' +
-            ex([['Huset blev bygget i 1850.', 'La casa fu costruita nel 1850.'], ['Han er blevet fyret.', 'È stato licenziato.']])
+            table([`Gruppo`, `Infinito`, `Preterito`], [
+              [`grande gruppo debole (-ede)`, `at lave`, `lavede`], [`piccolo gruppo debole (-te)`, `at spise`, `spiste`],
+              [`irregolari (-de)`, `at have, at sige`, `havde, sagde`], [`forti (cambio vocale)`, `at drikke, at finde`, `drak, fandt`]
+            ]) +
+            `<p>Il preterito traduce imperfetto, passato remoto e spesso anche il passato prossimo italiano, quando l'azione è collocata in un momento concluso: <span class="da">i går, i lørdags, for tre år siden</span>.</p>`
         },
         {
-          titolo: 'Verbi deponenti',
+          titolo: `tro o synes? (unità 13)`,
           html:
-            '<p>Alcuni verbi hanno la forma in -s ma significato <strong>attivo</strong>:</p>' +
-            table(['Verbo', 'Significato', 'Esempio'], [
-              ['<span class="da">at synes</span>', 'pensare, trovare (opinione)', '<span class="da">Jeg synes, det er en god idé.</span>'],
-              ['<span class="da">at findes</span>', 'esistere', '<span class="da">Der findes mange sprog.</span>'],
-              ['<span class="da">at lykkes</span>', 'riuscire', '<span class="da">Det lykkedes for mig.</span>'],
-              ['<span class="da">at mødes</span>', 'incontrarsi', '<span class="da">Vi mødes i morgen.</span>'],
-              ['<span class="da">at ses</span>', 'vedersi', '<span class="da">Vi ses!</span> Ci vediamo!']
-            ])
+            ex([[`Jeg tror, at det bliver godt vejr i morgen.`, `Supposizione, futuro, cose misurabili.`], [`Jeg synes, at franske vine er sure.`, `Opinione personale, gusto, esperienza diretta.`]])
         },
         {
-          titolo: 'Trapassato e condizionale',
+          titolo: `Passivo, trapassato e azione durativa (unità 14–15)`,
           html:
-            '<p>Il <strong>trapassato</strong> (<em>førnutid</em>) si forma con <span class="da">havde</span> o <span class="da">var</span> + participio.</p>' +
-            ex([['Da jeg kom, var han allerede gået.', 'Quando sono arrivato, lui era già andato via.'], ['Hun havde aldrig set sneen før.', 'Non aveva mai visto la neve prima.']]) +
-            '<p>Il <strong>condizionale</strong> si fa con <span class="da">ville</span> + infinito; le ipotesi irreali usano il passato dopo <span class="da">hvis</span>.</p>' +
-            ex([['Hvis jeg havde tid, ville jeg rejse.', 'Se avessi tempo, viaggerei.'], ['Hvis jeg havde vidst det, ville jeg have hjulpet.', 'Se l\'avessi saputo, avrei aiutato.']])
+            `<p>Passivo con <strong>-s</strong> (<span class="da">vaskes, vaskedes</span>) o con <span class="da">blive</span> + participio (<span class="da">Huset blev opført af min morfar</span>). Trapassato: <span class="da">havde / var</span> + participio. Azione in corso: verbo di posizione + <span class="da">og</span> (<span class="da">De lå og sov</span>) oppure <span class="da">være ved at</span>.</p>`
         }
       ],
       quiz: [
-        { domanda: 'Butikken ___ kl. 9. <em>(viene aperto)</em>', opzioni: ['åbnes', 'åbner s', 'blev åbnet af'], spiegazione: 'Passivo in -s: <span class="da">åbnes</span>.' },
-        { domanda: 'Huset ___ bygget i 1850.', opzioni: ['blev', 'var blevet bygget', 'bygges'], spiegazione: 'Azione singola al passato: <span class="da">blev bygget</span>.' },
-        { domanda: 'Jeg ___, at det er en god idé. <em>(penso)</em>', opzioni: ['synes', 'syner', 'synet'], spiegazione: '<span class="da">synes</span> è un verbo deponente: forma in -s, significato attivo.' },
-        { domanda: 'Da jeg kom, ___ han allerede gået.', opzioni: ['var', 'havde', 'er'], spiegazione: 'Trapassato con verbo di movimento: <span class="da">var gået</span>.' },
-        { domanda: 'Hvis jeg havde tid, ___ jeg rejse.', opzioni: ['ville', 'vil', 'skal'], spiegazione: 'Condizionale: <span class="da">ville</span> + infinito.' },
-        { domanda: 'Vi ___ i morgen kl. 10. <em>(ci incontriamo)</em>', opzioni: ['mødes', 'møder', 'mødte os'], spiegazione: 'Verbo reciproco/deponente: <span class="da">mødes</span>.' },
-        { domanda: 'Her ___ dansk. <em>(si parla)</em>', opzioni: ['tales', 'taler man s', 'blive talt'], spiegazione: 'Passivo generico in -s: <span class="da">tales</span>.' }
+        q(`Det ___ godt vejr i weekenden. <em>(farà)</em>`, [`bliver`, `bli'r at`, `skal være at`, `blev`], `Per il futuro si usa spesso <span class="da">blive</span> al presente.`),
+        q(`I går ___ hun hjemme. <em>(at spise)</em>`, [`spiste`, `spisede`, `spiser`, `spist`], `<span class="da">spise</span> è del piccolo gruppo debole: preterito in <span class="da">-te</span>.`),
+        q(`Hvad ___ du i går? <em>(at lave)</em>`, [`lavede`, `lavte`, `laver`, `har lavet i går`], `Grande gruppo debole: <span class="da">-ede</span>. Con <span class="da">i går</span> si usa il preterito.`),
+        q(`Han ___ en øl i aftes. <em>(at drikke)</em>`, [`drak`, `drikkede`, `drikte`, `drukket`], `Verbo forte: la vocale cambia, <span class="da">drikke → drak</span>.`),
+        q(`Han er ret tyk. Jeg ___, at han vejer mindst 100 kilo.`, [`tror`, `synes`, `syntes`, `synes om`], `Una supposizione su qualcosa di misurabile: <span class="da">tror</span>.`),
+        q(`Har du været i Prag? Det er en virkelig dejlig by, ___ jeg.`, [`synes`, `tror`, `troede`, `menes`], `Opinione basata sull'esperienza diretta: <span class="da">synes</span>.`),
+        q(`Huset ___ af min morfar i 1937.`, [`blev opført`, `opførte`, `er opførende`, `bliver opførte`], `Passivo con <span class="da">blive</span> + participio per un evento concreto; l'agente con <span class="da">af</span>.`),
+        q(`Beløbet ___ af kommunen. <em>(viene amministrata)</em>`, [`administreres`, `administrerer`, `administreret`, `bliver administrerer`], `Passivo con <span class="da">-s</span>: <span class="da">administrere → administreres</span>.`),
+        q(`Sofie var ked af det, fordi hun ___ en dårlig karakter.`, [`havde fået`, `har fået`, `fik haft`, `var fået`], `Azione anteriore a un'altra al passato: trapassato <span class="da">havde fået</span>.`),
+        q(`Stavano dormendo.`, [`De lå og sov.`, `De var sovende.`, `De sov og lå.`, `De stod og sov.`], `Azione durativa: verbo di posizione + <span class="da">og</span>. Si dorme sdraiati: <span class="da">lå og sov</span>.`)
       ]
     },
 
     avverbi: {
-      sommario: 'Gli avverbi modali (jo, nok, vel, bare) e la posizione dei pronomi.',
+      sommario: `Avverbi di luogo: hjem/hjemme, ud/ude, ind/inde, op/oppe e derned/heroppe.`,
       sezioni: [
         {
-          titolo: 'Le piccole parole del parlato',
+          titolo: `Moto a luogo o stato in luogo? (unità 14)`,
           html:
-            '<p>Il danese usa molti piccoli avverbi per esprimere l\'atteggiamento di chi parla. Sono difficili da tradurre, ma rendono la lingua naturale.</p>' +
-            table(['Avverbio', 'Sfumatura', 'Esempio'], [
-              ['<span class="da">jo</span>', '"come sai", "dopotutto"', '<span class="da">Det ved du jo!</span> Lo sai bene!'],
-              ['<span class="da">nok</span>', 'probabilmente', '<span class="da">Det bliver nok regnvejr.</span> Probabilmente pioverà.'],
-              ['<span class="da">vel</span>', '"immagino", "vero?"', '<span class="da">Du kommer vel i morgen?</span> Vieni domani, vero?'],
-              ['<span class="da">bare</span>', '"pure", "solo"', '<span class="da">Kom bare ind!</span> Entra pure!'],
-              ['<span class="da">da</span>', 'enfasi, sorpresa', '<span class="da">Det er da fint!</span> Ma è bello!'],
-              ['<span class="da">godt</span>', 'enfasi affermativa', '<span class="da">Jeg kan godt lide det.</span> Mi piace (proprio).']
-            ])
+            `<p>Alcuni avverbi hanno due forme: quella base per il <strong>movimento verso</strong> un luogo e quella in <strong>-e</strong> per lo <strong>stare</strong> in un luogo.</p>` +
+            table([`Moto (verso dove?)`, `Stato (dove?)`, `Italiano`], [
+              [`hjem`, `hjemme`, `a casa`], [`ud`, `ude`, `fuori`], [`ind`, `inde`, `dentro`], [`op`, `oppe`, `su`], [`ned`, `nede`, `giù`], [`hen`, `henne`, `(là)`], [`over`, `ovre`, `dall'altra parte`]
+            ]) +
+            ex([[`Hun går hen til bageren.`, `Va dal fornaio.`], [`Hun er henne hos bageren.`, `È dal fornaio.`]])
         },
         {
-          titolo: 'Pronomi e avverbi: lo "spostamento"',
+          titolo: `La direzione sta nell'avverbio`,
           html:
-            '<p>Un pronome complemento non accentato (<span class="da">mig, dig, ham, den, det…</span>) si mette <strong>prima</strong> di <span class="da">ikke</span> nella frase principale con un verbo semplice. Un nome invece va dopo.</p>' +
-            ex([['Jeg kender ham ikke.', 'Non lo conosco.'], ['Jeg kender ikke Peter.', 'Non conosco Peter.'], ['Jeg har ikke set ham.', 'Non l\'ho visto. (con verbo composto il pronome resta dopo)']]) +
-            tip('Se il verbo è composto (<span class="da">har set</span>, <span class="da">kan se</span>), il pronome resta dopo il participio o l\'infinito.')
+            `<p>L'italiano dice entrare, uscire, salire, scendere; il danese dice <em>come</em> ci si muove e aggiunge la direzione: <span class="da">gå ind, gå ud, gå op, gå ned</span>.</p>` +
+            ex([[`Camilla gik ind i køkkenet.`, `Camilla entrò in cucina.`], [`Hun flyver derned. / Hvad laver hun dernede?`, `Vola laggiù. / Cosa fa laggiù?`]])
         }
       ],
       quiz: [
-        { domanda: 'Det bliver ___ regnvejr i morgen. <em>(probabilmente)</em>', opzioni: ['nok', 'jo', 'bare'], spiegazione: '"Probabilmente" = <span class="da">nok</span>.' },
-        { domanda: 'Du kommer ___ i morgen? <em>(immagino, vero?)</em>', opzioni: ['vel', 'nok', 'jo'], spiegazione: '<span class="da">vel</span> chiede conferma.' },
-        { domanda: 'Det ved du ___! <em>(lo sai bene)</em>', opzioni: ['jo', 'vel', 'nok'], spiegazione: '<span class="da">jo</span> = "come sai benissimo".' },
-        { domanda: 'Quale frase è corretta (frase neutra)?', opzioni: ['Jeg kender ham ikke.', 'Jeg kender ikke ham.', 'Jeg ikke kender ham.'], spiegazione: 'Pronome non accentato prima di <span class="da">ikke</span>.' },
-        { domanda: 'Quale frase è corretta?', opzioni: ['Jeg har ikke set ham.', 'Jeg har ham ikke set.', 'Jeg har set ikke ham.'], spiegazione: 'Con verbo composto il pronome resta dopo il participio.' },
-        { domanda: 'Kom ___ ind! <em>(entra pure)</em>', opzioni: ['bare', 'nok', 'vel'], spiegazione: '<span class="da">bare</span> rende l\'invito gentile.' }
+        q(`Han gik tidligt ___.`, [`hjem`, `hjemme`, `hjemmet`, `hjemad til`], `Movimento verso casa: <span class="da">hjem</span>.`),
+        q(`I dag arbejder han ___.`, [`hjemme`, `hjem`, `hjemmet`, `til hjem`], `Si trova a casa: <span class="da">hjemme</span>.`),
+        q(`Jeg vil gerne ___ nu. <em>(andare a casa)</em>`, [`hjem`, `hjemme`, `hjemmet`, `være hjem`], `Con <span class="da">vil</span> sottinteso il movimento: <span class="da">hjem</span>.`),
+        q(`Hun løber ___ i haven. <em>(esce correndo in giardino)</em>`, [`ud`, `ude`, `inde`, `ind`], `Movimento verso fuori: <span class="da">ud</span>.`),
+        q(`Børnene leger ___ i stuen. <em>(dentro)</em>`, [`inde`, `ind`, `ude`, `ud`], `Stanno dentro, nessun movimento verso: <span class="da">inde</span>.`),
+        q(`Sofie er ___ i kælderen. <em>(giù)</em>`, [`nede`, `ned`, `oppe`, `op`], `Stato in luogo: forma in -e, <span class="da">nede</span>.`),
+        q(`Hun er ___ hos bageren.`, [`henne`, `hen`, `hjemme`, `ovre`], `Si trova dal fornaio: <span class="da">henne</span>.`),
+        q(`Camilla entrò in cucina.`, [`Camilla gik ind i køkkenet.`, `Camilla gik inde i køkkenet.`, `Camilla entrede køkkenet inde.`, `Camilla gik i køkkenet ind.`], `"Entrare" = <span class="da">gå ind</span>: la direzione è nell'avverbio.`),
+        q(`Camilla scese le scale.`, [`Camilla gik ned ad trappen.`, `Camilla gik nede ad trappen.`, `Camilla gik op ad trappen.`, `Camilla nedgik trappen.`], `"Scendere" = <span class="da">gå ned</span>.`),
+        q(`Hun flyver til Spanien. Hvad laver hun ___?`, [`dernede`, `derned`, `heroppe`, `herop`], `Stato in un luogo lontano (verso sud): <span class="da">dernede</span>.`)
       ]
     },
 
     pronomi: {
-      sommario: 'Pronomi relativi (som, der, hvis, hvilket) e indefiniti (man, nogen, ingen).',
+      sommario: `hvilken/hvilket/hvilke, i relativi der e som, i dimostrativi e la posizione dei pronomi.`,
       sezioni: [
         {
-          titolo: 'Pronomi relativi',
+          titolo: `hvilken, hvilket, hvilke (unità 11)`,
           html:
-            table(['Danese', 'Uso', 'Esempio'], [
-              ['<span class="da">som</span>', 'che (soggetto o oggetto)', '<span class="da">Bogen, som jeg læser, er spændende.</span>'],
-              ['<span class="da">der</span>', 'che (solo soggetto)', '<span class="da">Manden, der bor her, er læge.</span>'],
-              ['<span class="da">hvis</span>', 'il cui, la cui', '<span class="da">Kvinden, hvis bil er rød, er min nabo.</span>'],
-              ['<span class="da">hvad</span>', 'ciò che', '<span class="da">Gør, hvad du vil.</span> Fai ciò che vuoi.'],
-              ['<span class="da">hvilket</span>', 'il che (riferito a tutta la frase)', '<span class="da">Han kom ikke, hvilket var synd.</span>']
-            ]) +
-            tip('Quando <span class="da">som</span> è oggetto si può anche omettere: <span class="da">Bogen (som) jeg læser…</span>. Non si può omettere quando è soggetto.')
+            ex([[`Hvilken dag skal vi holde fest?`, `comune singolare (en dag)`], [`Hvilket tøj skal jeg vælge?`, `neutro singolare (et tøj)`], [`Hvilke sko har du på?`, `plurale`]]) +
+            tip(`Nel parlato si sente spesso <span class="da">hvad for en / et / nogle</span>.`)
         },
         {
-          titolo: 'Pronomi indefiniti',
+          titolo: `I relativi der e som (unità 14)`,
           html:
-            table(['Danese', 'Italiano', 'Esempio'], [
-              ['<span class="da">man</span>', 'si (impersonale)', '<span class="da">Man siger, at…</span> Si dice che…'],
-              ['<span class="da">nogen / noget / nogle</span>', 'qualcuno, qualcosa, alcuni', '<span class="da">Har du nogen søskende?</span>'],
-              ['<span class="da">ingen / intet</span>', 'nessuno, niente', '<span class="da">Der er ingen mælk.</span> Non c\'è latte.'],
-              ['<span class="da">hver / hvert</span>', 'ogni', '<span class="da">hver dag, hvert år</span>'],
-              ['<span class="da">al / alt / alle</span>', 'tutto, tutti', '<span class="da">Alle er her.</span> Ci sono tutti.']
+            `<p><span class="da">der</span> può essere solo <strong>soggetto</strong> della relativa; <span class="da">som</span> può essere soggetto, oggetto o retto da una preposizione (che va in fondo).</p>` +
+            ex([[`Jeg har en veninde, der/som er meget klog.`, `soggetto: der o som`], [`Jeg har en veninde, som jeg ser hver fredag.`, `oggetto: solo som`], [`… en veninde, som jeg skal på ferie med.`, `preposizione in fondo`]])
+        },
+        {
+          titolo: `Dimostrativi (unità 15)`,
+          html:
+            table([``, `comune`, `neutro`, `plurale`], [
+              [`vicino`, `denne (her)`, `dette (her)`, `disse (her)`], [`lontano`, `den (der)`, `det (der)`, `de (der)`]
             ]) +
-            tip('<span class="da">nogen</span> si usa nelle domande e nelle frasi negative; <span class="da">nogle</span> nelle frasi affermative al plurale: <span class="da">Jeg har nogle venner i Aarhus.</span>')
+            `<p>Come oggetto al plurale si usa <span class="da">dem</span>: <span class="da">Nej, dem kan jeg slet ikke lide.</span></p>`
         }
       ],
       quiz: [
-        { domanda: 'Manden, ___ bor ved siden af, er læge.', opzioni: ['der', 'hvad', 'hvis'], spiegazione: 'Relativo soggetto: <span class="da">der</span> (o <span class="da">som</span>).' },
-        { domanda: 'Bogen, ___ jeg læser, er spændende.', opzioni: ['som', 'der', 'hvis'], spiegazione: 'Relativo oggetto: solo <span class="da">som</span>, non <span class="da">der</span>.' },
-        { domanda: 'Kvinden, ___ bil er rød, er min nabo.', opzioni: ['hvis', 'som', 'hvem'], spiegazione: '"La cui" = <span class="da">hvis</span>.' },
-        { domanda: '___ siger, at det bliver koldt. <em>(si dice)</em>', opzioni: ['Man', 'Mand', 'Den'], spiegazione: 'Soggetto impersonale: <span class="da">man</span>.' },
-        { domanda: 'Har du ___ søskende?', opzioni: ['nogen', 'nogle', 'noget'], spiegazione: 'Nelle domande: <span class="da">nogen</span>.' },
-        { domanda: 'Der er ___ mælk i køleskabet. <em>(non c\'è latte)</em>', opzioni: ['ingen', 'intet', 'ikke'], spiegazione: 'mælk è di genere comune → <span class="da">ingen</span>.' },
-        { domanda: 'Han kom ikke, ___ var synd.', opzioni: ['hvilket', 'som', 'hvad'], spiegazione: 'Riferito a tutta la frase: <span class="da">hvilket</span>.' }
+        q(`___ dag skal vi holde fest?`, [`Hvilken`, `Hvilket`, `Hvilke`, `Hvem`], `<span class="da">en dag</span>: comune singolare → <span class="da">hvilken</span>.`),
+        q(`___ tøj skal jeg vælge?`, [`Hvilket`, `Hvilken`, `Hvilke`, `Hvad for en`], `<span class="da">et tøj</span>: neutro → <span class="da">hvilket</span>.`),
+        q(`___ sko har du på?`, [`Hvilke`, `Hvilken`, `Hvilket`, `Hvem`], `Plurale → <span class="da">hvilke</span>.`),
+        q(`___ lande er ikke med i EU?`, [`Hvilke`, `Hvilket`, `Hvilken`, `Hvad`], `<span class="da">lande</span> è plurale → <span class="da">hvilke</span>.`),
+        q(`Jeg har en veninde, ___ jeg ser hver fredag.`, [`som`, `der`, `hvem`, `hvad`], `Il relativo è oggetto: solo <span class="da">som</span>, mai <span class="da">der</span>.`),
+        q(`Jeg har en veninde, ___ er meget klog, og som bor i København.`, [`der`, `hvem`, `hvis`, `hvilken`], `Soggetto della relativa: <span class="da">der</span> (o som). La seconda relativa coordinata vuole <span class="da">som</span>.`),
+        q(`Den veninde, ___ jeg skal på ferie ___, er lige flyttet.`, [`som … med`, `der … med`, `hvilken … med`, `hvem … med`], `Con la preposizione si usa <span class="da">som</span> e la preposizione va in fondo (som può anche essere omesso).`),
+        q(`Jeg har købt ___ smukke ring. <em>(questo)</em>`, [`denne`, `dette`, `disse`, `den her her`], `<span class="da">ring</span> è comune, vicino: <span class="da">denne</span>. L'aggettivo prende -e.`),
+        q(`A: Kan du lide disse støvler? B: Nej, ___ kan jeg slet ikke lide.`, [`dem`, `de`, `disse`, `deres`], `Dimostrativo plurale in funzione di oggetto: <span class="da">dem</span>.`),
+        q(`Scegli la frase corretta:`, [`Jesper giver hende den ikke i dag.`, `Jesper giver ikke hende den i dag.`, `Jesper giver den hende ikke i dag.`, `Jesper ikke giver hende den i dag.`], `Nei tempi semplici i pronomi oggetto vanno prima di <span class="da">ikke</span>, e l'indiretto prima del diretto.`)
       ]
     },
 
     preposizioni: {
-      sommario: 'Verbi e aggettivi con preposizione fissa; la preposizione a fine frase.',
+      sommario: `Espressioni di tempo al passato e al futuro, af nel passivo, om con synes e handle.`,
       sezioni: [
         {
-          titolo: 'Verbi con preposizione fissa',
+          titolo: `Tempo passato (unità 12)`,
           html:
-            '<p>Molti verbi vogliono una preposizione precisa, spesso diversa dall\'italiano. Vanno imparati insieme.</p>' +
-            table(['Danese', 'Italiano'], [
-              ['<span class="da">at tænke på</span>', 'pensare a'],
-              ['<span class="da">at vente på</span>', 'aspettare (qualcosa/qualcuno)'],
-              ['<span class="da">at tro på</span>', 'credere in'],
-              ['<span class="da">at glæde sig til</span>', 'non vedere l\'ora di'],
-              ['<span class="da">at interessere sig for</span>', 'interessarsi di'],
-              ['<span class="da">at drømme om</span>', 'sognare (di)'],
-              ['<span class="da">at tale om</span>', 'parlare di'],
-              ['<span class="da">at passe på</span>', 'fare attenzione a, badare a']
+            table([`Struttura`, `Esempi`], [
+              [`i + giorno + -s`, `i mandags (lunedì scorso), i lørdags`],
+              [`for … siden`, `for to dage siden (due giorni fa)`],
+              [`i sidste + periodo`, `i sidste uge (la settimana scorsa), sidste år`],
+              [`i + parte del giorno`, `i går, i nat, i aftes (ieri sera), i morges`]
             ])
         },
         {
-          titolo: 'Aggettivi con preposizione',
-          html:
-            table(['Danese', 'Italiano'], [
-              ['<span class="da">at være glad for</span>', 'essere contento di, voler bene a'],
-              ['<span class="da">at være bange for</span>', 'avere paura di'],
-              ['<span class="da">at være god til</span>', 'essere bravo in'],
-              ['<span class="da">at være træt af</span>', 'essere stufo di'],
-              ['<span class="da">at være vant til</span>', 'essere abituato a']
-            ])
+          titolo: `Tempo futuro (unità 11)`,
+          html: ex([[`i aften`, `stasera`], [`på fredag`, `venerdì prossimo`], [`til sommer`, `la prossima estate`], [`i næste uge`, `la settimana prossima`]])
         },
         {
-          titolo: 'La preposizione va in fondo',
-          html:
-            '<p>Nelle domande e nelle frasi relative la preposizione resta spesso <strong>alla fine</strong>, come in inglese. In italiano invece va all\'inizio.</p>' +
-            ex([['Hvem venter du på?', 'Chi stai aspettando?'], ['Hvad taler I om?', 'Di cosa parlate?'], ['Det er den bog, jeg har fortalt dig om.', 'È il libro di cui ti ho parlato.']])
+          titolo: `Altre preposizioni fisse (unità 13–14)`,
+          html: ex([[`Hvad synes du om filmen?`, `Che ne pensi del film?`], [`Den handler om fire mænd.`, `Parla di quattro uomini.`], [`Huset blev opført af min morfar.`, `Fu costruita da mio nonno (agente del passivo).`], [`Camilla gik ud af køkkenet.`, `Camilla uscì dalla cucina.`]])
         }
       ],
       quiz: [
-        { domanda: 'Jeg glæder mig ___ ferien.', opzioni: ['til', 'på', 'for'], spiegazione: '<span class="da">glæde sig til</span> = non vedere l\'ora di.' },
-        { domanda: 'Hun venter ___ bussen.', opzioni: ['på', 'til', 'efter'], spiegazione: '<span class="da">vente på</span> = aspettare.' },
-        { domanda: 'Jeg tænker tit ___ dig.', opzioni: ['på', 'om', 'til'], spiegazione: '<span class="da">tænke på</span> = pensare a.' },
-        { domanda: 'Han er bange ___ hunde.', opzioni: ['for', 'af', 'på'], spiegazione: '<span class="da">bange for</span> = avere paura di.' },
-        { domanda: 'Hvad taler I ___?', opzioni: ['om', 'på', 'til'], spiegazione: '<span class="da">tale om</span>; la preposizione resta in fondo.' },
-        { domanda: 'Jeg interesserer mig ___ musik.', opzioni: ['for', 'i', 'på'], spiegazione: '<span class="da">interessere sig for</span>.' },
-        { domanda: 'Jeg er træt ___ regnvejr.', opzioni: ['af', 'for', 'med'], spiegazione: '<span class="da">træt af</span> = stufo di.' }
+        q(`Charlotte flyttede til København ___ tre år ___.`, [`for … siden`, `i … siden`, `siden … for`, `for … før`], `"tre anni fa" = <span class="da">for tre år siden</span>.`),
+        q(`Jeg købte et par sko ___. <em>(mercoledì scorso)</em>`, [`i onsdags`, `på onsdag`, `om onsdagen`, `i onsdag`], `Giorno passato: <span class="da">i</span> + giorno + <span class="da">-s</span>.`),
+        q(`Vi var i London ___. <em>(l'anno scorso)</em>`, [`sidste år`, `næste år`, `for et år`, `om året`], `<span class="da">sidste år</span> = l'anno scorso.`),
+        q(`Hvad lavede du ___? <em>(ieri sera)</em>`, [`i aftes`, `i aften`, `om aftenen`, `på aften`], `<span class="da">i aftes</span> = ieri sera; <span class="da">i aften</span> = stasera.`),
+        q(`Rikke går på ferie ___ fredag. <em>(venerdì prossimo)</em>`, [`på`, `i`, `om`, `for`], `Futuro vicino: <span class="da">på fredag</span>.`),
+        q(`Vi tager til Rom ___ næste uge.`, [`i`, `på`, `om`, `til`], `<span class="da">i næste uge</span> = la settimana prossima.`),
+        q(`Hvad synes du ___ filmen?`, [`om`, `på`, `af`, `til`], `<span class="da">synes om</span>: avere un'opinione su qualcosa.`),
+        q(`Den handler ___ kærlighed og venskab.`, [`om`, `af`, `på`, `med`], `"Parla di…" = <span class="da">handler om</span>.`),
+        q(`Huset blev opført ___ min morfar.`, [`af`, `fra`, `med`, `ved`], `L'agente del passivo si introduce con <span class="da">af</span>.`),
+        q(`Camilla gik ud ___ køkkenet.`, [`af`, `fra`, `i`, `til`], `"uscire da" = <span class="da">gå ud af</span>.`)
       ]
     },
 
     congiunzioni: {
-      sommario: 'Congiunzioni correlative (både … og, hverken … eller) e subordinanti avanzate.',
+      sommario: `at/om, da/når, hvis/om, fordi/selvom e le subordinanti di tempo.`,
       sezioni: [
         {
-          titolo: 'Congiunzioni correlative',
-          html:
-            table(['Danese', 'Italiano', 'Esempio'], [
-              ['<span class="da">både … og</span>', 'sia … sia', '<span class="da">Jeg kan lide både kaffe og te.</span>'],
-              ['<span class="da">enten … eller</span>', 'o … o', '<span class="da">Vi tager enten toget eller bussen.</span>'],
-              ['<span class="da">hverken … eller</span>', 'né … né', '<span class="da">Han drikker hverken øl eller vin.</span>'],
-              ['<span class="da">jo … jo/desto</span>', 'più … più', '<span class="da">Jo mere jeg læser, jo bedre forstår jeg.</span>']
-            ]) +
-            tip('Nota l\'inversione dopo <span class="da">jo … jo</span>: <span class="da">jo bedre <strong>forstår jeg</strong></span>.')
+          titolo: `at e om (unità 11)`,
+          html: ex([[`Sofie siger, at det ikke bliver regnvejr i dag.`, `at = che`], [`Camilla spørger, om det også bliver regnvejr.`, `om = se (domanda indiretta)`]])
         },
         {
-          titolo: 'Subordinanti avanzate',
+          titolo: `da o når? (unità 12)`,
           html:
-            table(['Danese', 'Italiano', 'Esempio'], [
-              ['<span class="da">eftersom</span>', 'poiché, dato che', '<span class="da">Eftersom han er syg, kan han ikke komme.</span>'],
-              ['<span class="da">medmindre</span>', 'a meno che', '<span class="da">Vi går en tur, medmindre det regner.</span>'],
-              ['<span class="da">så (at)</span>', 'così che, affinché', '<span class="da">Tal højt, så alle kan høre dig.</span>'],
-              ['<span class="da">før</span>', 'prima che', '<span class="da">Ring, før du kommer.</span>'],
-              ['<span class="da">efter at</span>', 'dopo che', '<span class="da">Efter at vi havde spist, gik vi.</span>'],
-              ['<span class="da">indtil</span>', 'finché', '<span class="da">Vent, indtil jeg kommer.</span>']
+            table([`Congiunzione`, `Uso`, `Esempio`], [
+              [`<span class="da">da</span>`, `un momento o un periodo concluso nel passato`, `Sofie var 18 år, da hun blev student.`],
+              [`<span class="da">når</span>`, `futuro, oppure cose che si ripetono (presente o passato)`, `Når jeg bliver gift, vil jeg have børn. Hun var altid træt, når hun fik fri.`]
+            ])
+        },
+        {
+          titolo: `Altre subordinanti (unità 13)`,
+          html:
+            table([`Danese`, `Italiano`], [
+              [`hvis`, `se (condizione)`], [`om`, `se (domanda indiretta)`], [`fordi`, `perché`], [`selvom`, `anche se`],
+              [`inden / før`, `prima che`], [`mens`, `mentre`], [`siden`, `da quando`], [`så`, `affinché`]
             ])
         }
       ],
       quiz: [
-        { domanda: 'Jeg kan lide ___ kaffe og te. <em>(sia … sia)</em>', opzioni: ['både', 'enten', 'hverken'], spiegazione: '"Sia … sia" = <span class="da">både … og</span>.' },
-        { domanda: 'Han drikker ___ øl eller vin. <em>(né … né)</em>', opzioni: ['hverken', 'enten', 'både'], spiegazione: '"Né … né" = <span class="da">hverken … eller</span>.' },
-        { domanda: 'Vi tager ___ toget eller bussen. <em>(o … o)</em>', opzioni: ['enten', 'hverken', 'både'], spiegazione: '"O … o" = <span class="da">enten … eller</span>.' },
-        { domanda: 'Vi går en tur, ___ det regner. <em>(a meno che)</em>', opzioni: ['medmindre', 'selvom', 'eftersom'], spiegazione: '"A meno che" = <span class="da">medmindre</span>.' },
-        { domanda: '___ han er syg, kan han ikke komme. <em>(poiché)</em>', opzioni: ['Eftersom', 'Medmindre', 'Indtil'], spiegazione: '"Poiché" = <span class="da">eftersom</span>.' },
-        { domanda: 'Più leggo, meglio capisco: "___ mere jeg læser, ___ bedre forstår jeg."', opzioni: ['Jo … jo', 'Mere … mere', 'Så … så'], spiegazione: '"Più … più" = <span class="da">jo … jo</span>.' },
-        { domanda: 'Vent, ___ jeg kommer. <em>(finché)</em>', opzioni: ['indtil', 'før', 'efter at'], spiegazione: '"Finché" = <span class="da">indtil</span>.' }
+        q(`Camilla spørger, ___ det også bliver regnvejr i dag.`, [`om`, `at`, `hvis`, `da`], `Domanda indiretta: <span class="da">om</span>.`),
+        q(`Jeg kommer, ___ jeg har tid.`, [`hvis`, `om`, `da`, `selvom`], `Condizione: <span class="da">hvis</span>. <span class="da">om</span> è solo per le domande indirette.`),
+        q(`___ jeg var barn, ville jeg være arkæolog.`, [`Da`, `Når`, `Hvis`, `Om`], `Periodo concluso nel passato: <span class="da">da</span>.`),
+        q(`___ det er vinter, er vejene glatte.`, [`Når`, `Da`, `Om`, `Mens`], `Qualcosa che succede ogni volta: <span class="da">når</span>.`),
+        q(`Sofie var 18 år, ___ hun blev student.`, [`da`, `når`, `hvis`, `om`], `Un momento preciso nel passato: <span class="da">da</span>.`),
+        q(`Jeg er ikke træt, ___ jeg kun har sovet et par timer.`, [`selvom`, `fordi`, `så`, `når`], `Concessiva: <span class="da">selvom</span> (anche se).`),
+        q(`Hun er bekymret, ___ hendes mor er på hospitalet.`, [`fordi`, `selvom`, `om`, `så`], `Causa: <span class="da">fordi</span>.`),
+        q(`Tag varmt tøj på, ___ du ikke bliver kold.`, [`så`, `for`, `selvom`, `da`], `Scopo (affinché): <span class="da">så</span> + subordinata.`),
+        q(`Pigerne snakkede sammen, ___ drengene spillede bordfodbold.`, [`mens`, `siden`, `inden`, `om`], `Due azioni contemporanee: <span class="da">mens</span>.`),
+        q(`Jeg børster tænder, ___ jeg går på arbejde.`, [`inden`, `mens`, `siden`, `selvom`], `"prima di" = <span class="da">inden</span>.`)
       ]
     },
 
     inversione: {
-      sommario: 'Inversione nel discorso diretto, nelle condizionali senza hvis e con il complemento in testa.',
+      sommario: `L'ordine delle parole nella subordinata e l'inversione quando la subordinata viene prima.`,
       sezioni: [
         {
-          titolo: 'Il complemento in prima posizione',
+          titolo: `La subordinata: ikke prima del verbo (unità 11)`,
           html:
-            '<p>Per dare enfasi si può mettere il complemento oggetto all\'inizio. Il verbo resta comunque secondo.</p>' +
-            ex([['Den film har jeg set tre gange.', 'Quel film l\'ho visto tre volte.'], ['Det ved jeg ikke.', 'Questo non lo so.']])
+            `<p>Nella subordinata <strong>non c'è inversione</strong> e avverbi come <span class="da">ikke, også, måske, altid</span> vanno <strong>tra soggetto e verbo</strong>.</p>` +
+            ex([[`Det bliver ikke regnvejr i dag.`, `principale`], [`Sofie siger, at det ikke bliver regnvejr i dag.`, `subordinata`]])
         },
         {
-          titolo: 'Discorso diretto',
+          titolo: `Subordinata in testa → inversione (unità 12–13)`,
           html:
-            '<p>Dopo una citazione il verbo del "dire" viene prima del soggetto.</p>' +
-            ex([['"Jeg er træt," sagde hun.', '"Sono stanca", disse lei.'], ['"Kom ind!" råbte han.', '"Entra!" gridò lui.']])
-        },
-        {
-          titolo: 'Condizionali senza hvis',
-          html:
-            '<p>Si può esprimere una condizione mettendo il verbo <strong>al primo posto</strong>, senza <span class="da">hvis</span>. È tipico del danese parlato e scritto.</p>' +
-            ex([['Har du tid i morgen, kan vi ses.', 'Se hai tempo domani, possiamo vederci.'], ['Kommer han, går jeg.', 'Se viene lui, me ne vado.']])
-        },
-        {
-          titolo: 'Niente inversione nelle domande indirette',
-          html:
-            '<p>Nelle subordinate (anche nelle domande indirette) l\'ordine è sempre <strong>soggetto + verbo</strong>.</p>' +
-            table(['Domanda diretta', 'Domanda indiretta'], [
-              ['<span class="da">Hvor bor han?</span>', '<span class="da">Jeg ved ikke, hvor han bor.</span>'],
-              ['<span class="da">Kommer hun?</span>', '<span class="da">Jeg spørger, om hun kommer.</span>']
-            ])
+            `<p>Se la subordinata viene prima, occupa il 1° posto: nella principale il verbo viene subito dopo, e poi il soggetto.</p>` +
+            ex([[`Du skal slukke lyset, inden du går.`, `Devi spegnere la luce prima di uscire.`], [`Inden du går, skal du slukke lyset.`, `Prima di uscire devi spegnere la luce.`], [`Når jeg bliver voksen, vil jeg være politibetjent.`, `Da grande voglio fare il poliziotto.`]])
         }
       ],
       quiz: [
-        { domanda: '"Jeg er træt," ___.', opzioni: ['sagde hun', 'hun sagde', 'sagde'], spiegazione: 'Dopo il discorso diretto: verbo + soggetto.' },
-        { domanda: '___ du tid i morgen, kan vi ses. <em>(se hai tempo)</em>', opzioni: ['Har', 'Hvis har', 'Du har'], spiegazione: 'Condizionale senza hvis: verbo al primo posto.' },
-        { domanda: 'Den film ___ set tre gange.', opzioni: ['har jeg', 'jeg har', 'har'], spiegazione: 'Complemento al primo posto → verbo + soggetto.' },
-        { domanda: 'Hvis det regner, ___ hjemme.', opzioni: ['bliver vi', 'vi bliver', 'blive vi'], spiegazione: 'Subordinata al primo posto → inversione.' },
-        { domanda: 'Jeg ved ikke, ___.', opzioni: ['hvor han bor', 'hvor bor han', 'bor han hvor'], spiegazione: 'Domanda indiretta: nessuna inversione.' },
-        { domanda: 'Heldigvis ___ ikke syg.', opzioni: ['er hun', 'hun er', 'hun ikke er'], spiegazione: 'Avverbio al primo posto → verbo + soggetto.' },
-        { domanda: 'Jeg spørger, ___.', opzioni: ['om hun kommer', 'kommer hun', 'om kommer hun'], spiegazione: 'Domanda indiretta sì/no: <span class="da">om</span> + soggetto + verbo.' }
+        q(`Sofie siger, at det ___ i dag.`, [`ikke bliver regnvejr`, `bliver ikke regnvejr`, `bliver regnvejr ikke`, `ikke regnvejr bliver`], `Nella subordinata <span class="da">ikke</span> precede il verbo.`),
+        q(`Inden du går, ___ slukke lyset.`, [`skal du`, `du skal`, `du skal at`, `skal at du`], `La subordinata è al 1° posto: segue subito il verbo, poi il soggetto.`),
+        q(`Når jeg bliver voksen, ___ være politibetjent.`, [`vil jeg`, `jeg vil`, `jeg vil at`, `vil at jeg`], `Subordinata in testa → inversione nella principale.`),
+        q(`Da Charlotte var studerende, ___ mange sjove fester.`, [`holdt hun`, `hun holdt`, `hun holdte`, `holdte hun`], `Inversione dopo la subordinata, e il preterito di <span class="da">holde</span> è <span class="da">holdt</span>.`),
+        q(`Camilla spørger, om det ___ regnvejr i dag.`, [`også bliver`, `bliver også`, `bliver regnvejr også`, `også det bliver`], `Anche <span class="da">også</span> va prima del verbo nella subordinata.`),
+        q(`Hvis du vil, ___.`, [`kan du`, `du kan`, `du kan det`, `kan`], `Dopo una subordinata con <span class="da">hvis</span> in testa: <span class="da">kan du</span>.`),
+        q(`Scegli la frase corretta:`, [`Jeg spiser kagen, selvom jeg ikke har lyst.`, `Jeg spiser kagen, selvom jeg har ikke lyst.`, `Jeg spiser kagen, selvom har jeg ikke lyst.`, `Jeg spiser kagen, selvom ikke jeg har lyst.`], `Subordinata: soggetto + <span class="da">ikke</span> + verbo.`),
+        q(`Scegli la frase corretta:`, [`Sofie ser dem næsten aldrig.`, `Sofie ser næsten aldrig dem.`, `Sofie dem ser næsten aldrig.`, `Sofie næsten aldrig ser dem.`], `Nel presente e nel preterito il pronome oggetto si sposta prima dell'avverbio.`),
+        q(`Scegli la frase corretta:`, [`I år vil jeg altså ikke fejre det med Mogens.`, `I år vil jeg det altså ikke fejre med Mogens.`, `I år jeg vil altså ikke fejre det med Mogens.`, `I år vil det jeg altså ikke fejre med Mogens.`], `Con un infinito (V occupato) il pronome resta dopo il verbo principale.`),
+        q(`Hun var altid træt, når hun ___ fri fra arbejde.`, [`fik`, `får`, `fikk`, `fået`], `Azione ripetuta nel passato: <span class="da">når</span> + preterito (<span class="da">få → fik</span>).`)
       ]
     }
   }
 };
-
-/* =====================================================================
- * Domande aggiuntive: ogni quiz arriva a 10 domande.
- * Anche qui la PRIMA opzione è quella corretta.
- * ===================================================================== */
-var EXTRA_QUIZ = {
-  principiante: {
-    verbi: [
-      { domanda: 'Jeg ___ en bog. <em>(at læse)</em>', opzioni: ['læser', 'læse', 'læs'], spiegazione: 'læse + r = <span class="da">læser</span>.' },
-      { domanda: 'Hvad ___ du? <em>(at hedde)</em>', opzioni: ['hedder', 'hedde', 'heder'], spiegazione: 'hedde + r = <span class="da">hedder</span>.' },
-      { domanda: 'Vi ___ gerne have to kaffe. <em>(vogliamo)</em>', opzioni: ['vil', 'viller', 'at ville'], spiegazione: 'Il modale <span class="da">ville</span> al presente è <span class="da">vil</span>, senza -r.' },
-      { domanda: 'Jeg ___ gå nu. <em>(devo)</em>', opzioni: ['skal', 'skaler', 'skulle at'], spiegazione: '<span class="da">skal</span> + infinito senza <span class="da">at</span>.' }
-    ],
-    avverbi: [
-      { domanda: 'Jeg er ___ træt. <em>(molto)</em>', opzioni: ['meget', 'mange', 'megen'], spiegazione: '"Molto" davanti a un aggettivo = <span class="da">meget</span>.' },
-      { domanda: 'Hun er ___ syg. <em>(un po\')</em>', opzioni: ['lidt', 'lille', 'få'], spiegazione: '"Un po\'" = <span class="da">lidt</span>.' },
-      { domanda: 'Sofie går ikke til yoga, og det gør Lene ___. <em>(neanche Lene)</em>', opzioni: ['heller ikke', 'også', 'derimod godt'], spiegazione: 'Frase negativa + accordo = <span class="da">heller ikke</span>.' },
-      { domanda: 'Det går ___ med fru Nielsen. <em>(male)</em>', opzioni: ['dårligt', 'dårlig', 'ikke godt er'], spiegazione: 'Avverbio "male" = <span class="da">dårligt</span>, con la -t.' }
-    ],
-    pronomi: [
-      { domanda: 'Vi ser ___ i morgen. <em>(loro)</em>', opzioni: ['dem', 'de', 'deres'], spiegazione: 'Complemento di "loro": <span class="da">dem</span>.' },
-      { domanda: 'Hvad med ___? <em>(e tu?)</em>', opzioni: ['dig', 'du', 'din'], spiegazione: 'Dopo una preposizione si usa il complemento: <span class="da">dig</span>.' },
-      { domanda: 'Det er ___ ven. <em>(en ven)</em>', opzioni: ['min', 'mit', 'mine'], spiegazione: 'Nome comune (en) → <span class="da">min</span>.' }
-    ],
-    preposizioni: [
-      { domanda: 'Jeg bor ___ Italien.', opzioni: ['i', 'på', 'til'], spiegazione: 'Con i paesi si usa <span class="da">i</span>.' },
-      { domanda: 'Hun arbejder ___ biblioteket.', opzioni: ['på', 'i', 'hos'], spiegazione: 'Molti luoghi pubblici vogliono <span class="da">på</span>: <span class="da">på biblioteket</span>.' },
-      { domanda: 'Bogen ligger ___ bordet. <em>(sul tavolo)</em>', opzioni: ['på', 'i', 'med'], spiegazione: 'Su una superficie: <span class="da">på</span>.' }
-    ],
-    congiunzioni: [
-      { domanda: 'Hun taler dansk ___ engelsk. <em>(e)</em>', opzioni: ['og', 'men', 'for'], spiegazione: '"E" = <span class="da">og</span>.' },
-      { domanda: 'Jeg kan godt lide kaffe, ___ jeg kan ikke lide te.', opzioni: ['men', 'og', 'eller'], spiegazione: 'Contrasto: <span class="da">men</span>.' },
-      { domanda: 'Skal vi gå i biografen, ___ skal vi blive hjemme?', opzioni: ['eller', 'men', 'så'], spiegazione: 'Alternativa: <span class="da">eller</span>.' },
-      { domanda: 'Det regner, ___ vi tager bussen. <em>(quindi)</em>', opzioni: ['så', 'for', 'eller'], spiegazione: 'Conseguenza: <span class="da">så</span>.' }
-    ],
-    inversione: [
-      { domanda: 'Come si chiede "Hai la febbre?"', opzioni: ['Har du feber?', 'Du har feber?', 'Feber har du?'], spiegazione: 'Domanda sì/no: verbo al primo posto.' },
-      { domanda: 'Hvem ___ fra Danmark? <em>(chi viene…)</em>', opzioni: ['kommer', 'kommer han', 'han kommer'], spiegazione: 'Qui <span class="da">hvem</span> è il soggetto, quindi segue subito il verbo.' },
-      { domanda: '"Perché" in danese si dice:', opzioni: ['hvorfor', 'hvordan', 'hvornår'], spiegazione: '<span class="da">hvorfor</span> = perché.' },
-      { domanda: 'Metti in ordine: <em>kan / tale / han / ikke / spansk ?</em>', opzioni: ['Kan han ikke tale spansk?', 'Han kan ikke tale spansk?', 'Kan ikke han tale spansk?'], spiegazione: 'Verbo + soggetto + <span class="da">ikke</span> + infinito.' }
-    ]
-  },
-  intermedio: {
-    verbi: [
-      { domanda: 'Jeg ___ en kop kaffe i morges. <em>(at drikke)</em>', opzioni: ['drak', 'drikkede', 'drukket'], spiegazione: 'drikke è irregolare: <span class="da">drak</span>.' },
-      { domanda: 'Hun ___ ja. <em>(at sige, passato)</em>', opzioni: ['sagde', 'sigede', 'sagt'], spiegazione: 'sige → <span class="da">sagde</span> (participio: <span class="da">sagt</span>).' },
-      { domanda: 'Vi har ___ i Danmark i to år. <em>(at bo)</em>', opzioni: ['boet', 'boede', 'bot'], spiegazione: 'Participio di bo: <span class="da">boet</span>.' }
-    ],
-    avverbi: [
-      { domanda: 'Kom ___! <em>(entra, moto)</em>', opzioni: ['ind', 'inde', 'inden'], spiegazione: 'Moto verso dentro: <span class="da">ind</span>.' },
-      { domanda: 'Hun er ___ på første sal. <em>(di sopra, stato)</em>', opzioni: ['oppe', 'op', 'opad'], spiegazione: 'Stato: <span class="da">oppe</span>.' },
-      { domanda: 'Jeg har ___ set filmen. <em>(già)</em>', opzioni: ['allerede', 'aldrig', 'altid'], spiegazione: '"Già" = <span class="da">allerede</span>.' }
-    ],
-    pronomi: [
-      { domanda: 'Er det ___ taske, Maria? <em>(tua; en taske)</em>', opzioni: ['din', 'dit', 'sin'], spiegazione: 'Nome comune → <span class="da">din</span>.' },
-      { domanda: 'De sælger ___ hus. <em>(il loro)</em>', opzioni: ['deres', 'sit', 'sine'], spiegazione: '<span class="da">sin/sit/sine</span> vale solo per la 3ª persona singolare. Al plurale si usa sempre <span class="da">deres</span>.' },
-      { domanda: 'Lars ringer til ___ mor. <em>(la propria)</em>', opzioni: ['sin', 'hans', 'sit'], spiegazione: 'Il possessore è il soggetto e <span class="da">mor</span> è comune: <span class="da">sin</span>.' }
-    ],
-    preposizioni: [
-      { domanda: 'Jeg arbejder ___ aftenen. <em>(di sera, di solito)</em>', opzioni: ['om', 'i', 'på'], spiegazione: 'Abitudine: <span class="da">om aftenen</span>.' },
-      { domanda: 'Hvad skal du lave ___ aften? <em>(stasera)</em>', opzioni: ['i', 'om', 'på'], spiegazione: '"Stasera" = <span class="da">i aften</span>.' },
-      { domanda: 'Han kom til Danmark ___ to år siden.', opzioni: ['for', 'i', 'om'], spiegazione: '"Fa" = <span class="da">for … siden</span>.' }
-    ],
-    congiunzioni: [
-      { domanda: 'Han læser, ___ hun laver mad. <em>(mentre)</em>', opzioni: ['mens', 'når', 'fordi'], spiegazione: '"Mentre" = <span class="da">mens</span>.' },
-      { domanda: 'Jeg tror, ___ det bliver regnvejr. <em>(che)</em>', opzioni: ['at', 'om', 'som'], spiegazione: '"Che" dopo verbi come tro, vide, sige = <span class="da">at</span>.' },
-      { domanda: 'Hun spørger, ___ jeg vil have kaffe. <em>(se)</em>', opzioni: ['om', 'hvis', 'at'], spiegazione: 'Domanda indiretta: <span class="da">om</span>.' }
-    ],
-    inversione: [
-      { domanda: 'Nu ___ hjem.', opzioni: ['går vi', 'vi går', 'går'], spiegazione: '<span class="da">Nu</span> al primo posto → verbo + soggetto.' },
-      { domanda: 'Om sommeren ___ ofte på stranden.', opzioni: ['er vi', 'vi er', 'vi ofte er'], spiegazione: 'Espressione di tempo al primo posto → inversione.' },
-      { domanda: 'Da jeg var barn, ___ i Napoli.', opzioni: ['boede jeg', 'jeg boede', 'boede'], spiegazione: 'La subordinata occupa il primo posto → verbo + soggetto.' }
-    ]
-  },
-  avanzato: {
-    verbi: [
-      { domanda: 'Der ___ mange sprog i verden. <em>(esistono)</em>', opzioni: ['findes', 'finder', 'er fundet'], spiegazione: '"Esistere" = <span class="da">findes</span>.' },
-      { domanda: 'Det ___ for ham at finde et job. <em>(è riuscito)</em>', opzioni: ['lykkedes', 'lykkede', 'lykkes ham'], spiegazione: 'Passato di <span class="da">lykkes</span>: <span class="da">lykkedes</span>.' },
-      { domanda: 'Hun ___ aldrig set sneen før. <em>(non aveva mai visto)</em>', opzioni: ['havde', 'var', 'har haft'], spiegazione: 'Trapassato: <span class="da">havde</span> + participio.' }
-    ],
-    avverbi: [
-      { domanda: 'Han kommer ikke. Han er ___ syg. <em>(probabilmente)</em>', opzioni: ['nok', 'jo', 'bare'], spiegazione: '"Probabilmente" = <span class="da">nok</span>.' },
-      { domanda: 'Det er ___ fint! <em>(ma è bello!)</em>', opzioni: ['da', 'vel', 'nok'], spiegazione: '<span class="da">da</span> aggiunge enfasi o sorpresa.' },
-      { domanda: 'Kender du ham? Nej, jeg kender ___. <em>(risposta neutra)</em>', opzioni: ['ham ikke', 'ikke ham', 'ikke'], spiegazione: 'Pronome non accentato prima di <span class="da">ikke</span>.' },
-      { domanda: 'Du skal ___ ringe, hvis du har brug for hjælp. <em>(pure)</em>', opzioni: ['bare', 'nok', 'vel'], spiegazione: '<span class="da">bare</span> = "pure, semplicemente".' }
-    ],
-    pronomi: [
-      { domanda: 'Jeg har ___ venner i Aarhus. <em>(alcuni)</em>', opzioni: ['nogle', 'nogen', 'noget'], spiegazione: 'Frase affermativa al plurale: <span class="da">nogle</span>.' },
-      { domanda: 'Gør, ___ du vil. <em>(ciò che)</em>', opzioni: ['hvad', 'som', 'hvilket'], spiegazione: '"Ciò che" = <span class="da">hvad</span>.' },
-      { domanda: 'Der er ___ hjemme. <em>(non c\'è nessuno)</em>', opzioni: ['ingen', 'intet', 'ikke nogen er'], spiegazione: '"Nessuno" = <span class="da">ingen</span>.' }
-    ],
-    preposizioni: [
-      { domanda: 'Jeg drømmer ___ at rejse til Island.', opzioni: ['om', 'på', 'til'], spiegazione: '<span class="da">drømme om</span> = sognare di.' },
-      { domanda: 'Hun er god ___ matematik.', opzioni: ['til', 'i', 'på'], spiegazione: '<span class="da">god til</span> = brava in.' },
-      { domanda: 'Pas ___ hunden! <em>(attento al cane)</em>', opzioni: ['på', 'for', 'med'], spiegazione: '<span class="da">passe på</span> = fare attenzione a.' }
-    ],
-    congiunzioni: [
-      { domanda: 'Ring, ___ du kommer. <em>(prima che)</em>', opzioni: ['før', 'efter at', 'indtil'], spiegazione: '"Prima che" = <span class="da">før</span>.' },
-      { domanda: 'Tal højt, ___ alle kan høre dig. <em>(così che)</em>', opzioni: ['så', 'medmindre', 'før'], spiegazione: 'Scopo: <span class="da">så</span> (at).' },
-      { domanda: '___ vi havde spist, gik vi en tur. <em>(dopo che)</em>', opzioni: ['Efter at', 'Før', 'Indtil'], spiegazione: '"Dopo che" = <span class="da">efter at</span>.' }
-    ],
-    inversione: [
-      { domanda: '"Kom ind!" ___.', opzioni: ['råbte han', 'han råbte', 'råbte'], spiegazione: 'Dopo il discorso diretto: verbo + soggetto.' },
-      { domanda: '___ han, går jeg. <em>(se viene lui)</em>', opzioni: ['Kommer', 'Hvis kommer', 'Han kommer'], spiegazione: 'Condizionale senza <span class="da">hvis</span>: verbo al primo posto.' },
-      { domanda: 'Det ___ ikke. <em>(questo non lo so)</em>', opzioni: ['ved jeg', 'jeg ved', 'ved'], spiegazione: '<span class="da">Det</span> al primo posto → verbo + soggetto.' }
-    ]
-  }
-};
-
-Object.keys(EXTRA_QUIZ).forEach(function (lvl) {
-  Object.keys(EXTRA_QUIZ[lvl]).forEach(function (topic) {
-    CONTENT[lvl][topic].quiz = CONTENT[lvl][topic].quiz.concat(EXTRA_QUIZ[lvl][topic]);
-  });
-});
