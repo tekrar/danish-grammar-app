@@ -59,7 +59,8 @@ danish-grammar-app/
 ├── css/style.css     # stile (mobile first, bianco/rosso/verde)
 └── js/
     ├── content.js    # teoria e domande dei quiz
-    └── app.js        # navigazione, quiz e punteggi
+    ├── app.js        # navigazione, quiz e punteggi
+    └── analytics.js  # Google Analytics 4 con banner per i cookie
 ```
 
 ### Aggiungere o modificare una domanda
@@ -75,6 +76,19 @@ Tutti i contenuti stanno in `js/content.js`. Ogni domanda ha questa forma:
 ```
 
 Le opzioni vengono mescolate automaticamente, quindi metti sempre la risposta corretta per prima.
+
+### Statistiche dei visitatori (Google Analytics 4)
+
+L'app può contare le visite con **Google Analytics 4**: paese e città dei visitatori, quiz aperti, dispositivo usato. Prima di caricare Analytics compare un banner in italiano che chiede il consenso ai cookie statistici (obbligatorio in Italia e nell'UE); chi rifiuta non viene tracciato. Il link **Preferenze cookie** nel footer permette di cambiare idea.
+
+Per attivarlo:
+
+1. Vai su [analytics.google.com](https://analytics.google.com), crea un account e una **proprietà GA4**
+2. Aggiungi uno **stream di dati Web** con l'URL `https://tekrar.github.io/danish-grammar-app/`
+3. Nelle impostazioni dello stream, in *Misurazione avanzata*, disattiva **"Cambi di pagina in base agli eventi della cronologia del browser"** (le visite delle pagine le invia già l'app)
+4. Copia l'**ID di misurazione** (`G-XXXXXXXXXX`) e incollalo in `js/analytics.js` al posto del segnaposto
+
+Finché l'ID è il segnaposto, il banner non appare e non viene caricato nulla.
 
 ### Pubblicare con GitHub Pages
 

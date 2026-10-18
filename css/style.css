@@ -340,3 +340,27 @@ th { background: var(--bg); font-weight: 700; }
   .question .q-text { font-size: 1.1rem; }
   .actions .btn, .next-btn { width: 100%; }
 }
+
+/* Banner consenso cookie (compare solo se Google Analytics è configurato) */
+.cookie-banner {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 50;
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--white);
+  color: var(--text);
+  border: 2px solid var(--red);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 6px 24px rgba(139, 10, 31, .18);
+}
+.cookie-banner p { margin: 0 0 12px; font-size: .95rem; }
+.cookie-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+.cookie-actions .btn[data-choice="granted"] { background: var(--green); border-color: var(--green); }
+.cookie-link { color: inherit; }
+@media (max-width: 520px) {
+  .cookie-actions .btn { flex: 1; }
+}
